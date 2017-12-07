@@ -1,0 +1,24 @@
+[  
+   {  
+      "modid":"huntingdim",
+      "name":"Hunting Dimension",
+      "description":"A dimension with lots of mobs! Watch out!!!",
+      "version":"${version}",
+      "mcversion":"${mcversion}",
+      "logoFile": "logo.png",
+      "url":"http://www.darkhax.net",
+      "updateUrl":"",
+      "authorList":[  
+         "Darkhax"
+      ],
+      "credits":"",
+      "logoFile":"",
+      "screenshots":[  
+
+      ],
+      "parent":"",
+      "dependencies":[  
+
+      ]
+   }
+]
