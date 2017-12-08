@@ -6,6 +6,7 @@ import com.google.common.cache.LoadingCache;
 
 import net.darkhax.huntingdim.HuntingDim;
 import net.darkhax.huntingdim.dimension.TeleporterHunting;
+import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.material.Material;
@@ -125,10 +126,10 @@ public class BlockHuntingPortal extends BlockPortal {
                     player.timeUntilPortal = player.getPortalCooldown();
 
                 }
-                else if (player.dimension != 28885) {
+                else if (player.dimension != ConfigurationHandler.dimensionId) {
                     // player is not in the dimension
 
-                    final int dimension = 28885;
+                    final int dimension = ConfigurationHandler.dimensionId;
 
                     if (!ForgeHooks.onTravelToDimension(player, dimension)) {
                         return;
@@ -182,7 +183,7 @@ public class BlockHuntingPortal extends BlockPortal {
                 d5 = rand.nextFloat() * 2.0F * j;
             }
 
-            worldIn.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5);
+            worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB, d0, d1, d2, 0f, 255f, 0f);
         }
     }
 

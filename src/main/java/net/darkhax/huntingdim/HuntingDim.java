@@ -29,8 +29,8 @@ public class HuntingDim {
     public void preInit (FMLPreInitializationEvent event) {
 
         new ConfigurationHandler();
-        dimensionType = DimensionType.register("hunting_dim", "_hunting", 28885, WorldProviderHunting.class, false);
-        DimensionManager.registerDimension(28885, dimensionType);
+        dimensionType = DimensionType.register("hunting_dim", "_hunting", ConfigurationHandler.dimensionId, WorldProviderHunting.class, false);
+        DimensionManager.registerDimension(ConfigurationHandler.dimensionId, dimensionType);
 
         frame = REGISTRY.registerBlock(new BlockHuntingFrame(), "frame");
         portal = REGISTRY.registerBlock(new BlockHuntingPortal(), "portal");
