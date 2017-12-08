@@ -1,6 +1,7 @@
 package net.darkhax.huntingdim.dimension;
 
 import net.darkhax.huntingdim.HuntingDim;
+import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
@@ -12,7 +13,7 @@ public class WorldProviderHunting extends WorldProvider {
     @Override
     public IChunkGenerator createChunkGenerator () {
 
-        return super.createChunkGenerator();
+        return this.terrainType.getChunkGenerator(this.world, ConfigurationHandler.generatorPreset);
     }
 
     @Override
