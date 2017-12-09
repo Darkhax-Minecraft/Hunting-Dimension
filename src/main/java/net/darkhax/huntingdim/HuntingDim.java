@@ -6,10 +6,12 @@ import net.darkhax.huntingdim.block.BlockHuntingFrame;
 import net.darkhax.huntingdim.block.BlockHuntingPortal;
 import net.darkhax.huntingdim.dimension.WorldProviderHunting;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
+import net.darkhax.huntingdim.handler.DimensionEffectHandler;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -34,5 +36,7 @@ public class HuntingDim {
 
         frame = REGISTRY.registerBlock(new BlockHuntingFrame(), "frame");
         portal = REGISTRY.registerBlock(new BlockHuntingPortal(), "portal");
+
+        MinecraftForge.EVENT_BUS.register(new DimensionEffectHandler());
     }
 }
