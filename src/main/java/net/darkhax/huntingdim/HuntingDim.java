@@ -2,6 +2,7 @@ package net.darkhax.huntingdim;
 
 import net.darkhax.bookshelf.lib.LoggingHelper;
 import net.darkhax.bookshelf.registry.RegistryHelper;
+import net.darkhax.bookshelf.util.OreDictUtils;
 import net.darkhax.huntingdim.block.BlockHuntingFrame;
 import net.darkhax.huntingdim.block.BlockHuntingPortal;
 import net.darkhax.huntingdim.dimension.WorldProviderHunting;
@@ -9,6 +10,8 @@ import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.darkhax.huntingdim.handler.DimensionEffectHandler;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,6 +29,7 @@ public class HuntingDim {
 
     public static Block portal;
     public static Block frame;
+    public static ItemBlock frameItem;
 
     @EventHandler
     public void preInit (FMLPreInitializationEvent event) {
@@ -34,8 +38,12 @@ public class HuntingDim {
         dimensionType = DimensionType.register("hunting_dim", "_hunting", ConfigurationHandler.dimensionId, WorldProviderHunting.class, false);
         DimensionManager.registerDimension(ConfigurationHandler.dimensionId, dimensionType);
 
-        frame = REGISTRY.registerBlock(new BlockHuntingFrame(), "frame");
+        frame = new BlockHuntingFrame();
+        frameItem = new ItemBlock(frame);
+        REGISTRY.registerBlock(frame, frameItem, "frame");
         portal = REGISTRY.registerBlock(new BlockHuntingPortal(), "portal");
+
+        REGISTRY.addShapedRecipe("portal_frame", new ItemStack(frameItem, 4), "xxx", "xyx", "xxx", 'x', OreDictUtils.LOG_WOOD, 'y', OreDictUtils.ARROW);
 
         MinecraftForge.EVENT_BUS.register(new DimensionEffectHandler());
     }
