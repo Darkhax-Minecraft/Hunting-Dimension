@@ -2,7 +2,7 @@ package net.darkhax.huntingdim.handler;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 
@@ -66,7 +66,8 @@ public class ConfigurationHandler {
 
         try {
 
-            generatorPreset = new String(Files.readAllBytes(preset.toPath()));
+            generatorPreset = FileUtils.readFileToString(preset, StandardCharsets.UTF_8);
+            HuntingDim.LOG.info("World settings loaded: " + generatorPreset.replaceAll("\\R", "").replaceAll("\\s", " "));
         }
 
         catch (final IOException e) {
