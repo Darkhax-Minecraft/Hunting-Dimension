@@ -43,24 +43,7 @@ public class BlockHuntingPortal extends BlockPortal {
     @Override
     public void updateTick (World worldIn, BlockPos pos, IBlockState state, Random rand) {
 
-        super.updateTick(worldIn, pos, state, rand);
-
-        if (worldIn.provider.isSurfaceWorld() && worldIn.getGameRules().getBoolean("doMobSpawning") && rand.nextInt(2000) < worldIn.getDifficulty().getDifficultyId()) {
-            final int i = pos.getY();
-            BlockPos blockpos;
-
-            for (blockpos = pos; !worldIn.getBlockState(blockpos).isTopSolid() && blockpos.getY() > 0; blockpos = blockpos.down()) {
-                ;
-            }
-
-            if (i > 0 && !worldIn.getBlockState(blockpos.up()).isNormalCube()) {
-                final Entity entity = ItemMonsterPlacer.spawnCreature(worldIn, EntityList.getKey(EntityPigZombie.class), blockpos.getX() + 0.5D, blockpos.getY() + 1.1D, blockpos.getZ() + 0.5D);
-
-                if (entity != null) {
-                    entity.timeUntilPortal = entity.getPortalCooldown();
-                }
-            }
-        }
+        // TODO possibly spawn mobs?
     }
 
     public static int getMetaForAxis (EnumFacing.Axis axis) {
