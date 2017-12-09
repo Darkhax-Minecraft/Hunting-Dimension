@@ -7,6 +7,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -29,7 +33,10 @@ public class BlockHuntingFrame extends Block {
             return false;
         }
 
-        if (playerIn.getHeldItemMainhand().getItem() == Items.FLINT_AND_STEEL) {
+        final ItemStack stack = playerIn.getHeldItem(hand);
+        final Item item = stack.getItem();
+
+        if (item instanceof ItemSword || item instanceof ItemBow || item == Items.FLINT_AND_STEEL) {
 
             ((BlockHuntingPortal) HuntingDim.portal).trySpawnPortal(worldIn, pos.offset(facing));
             return true;
