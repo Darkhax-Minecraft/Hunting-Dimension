@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.google.common.cache.LoadingCache;
 
+import net.darkhax.bookshelf.util.PlayerUtils;
 import net.darkhax.huntingdim.HuntingDim;
 import net.darkhax.huntingdim.dimension.TeleporterHunting;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
@@ -15,16 +16,14 @@ import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,119 +32,96 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockHuntingPortal extends BlockPortal {
 
     public BlockHuntingPortal () {
-        
+
         super();
         this.setBlockUnbreakable();
         this.setSoundType(SoundType.GLASS);
         this.setLightLevel(0.75F);
     }
-    
+
     @Override
     public void updateTick (World worldIn, BlockPos pos, IBlockState state, Random rand) {
 
         // TODO possibly spawn mobs?
     }
 
-    public static int getMetaForAxis (EnumFacing.Axis axis) {
-
-        if (axis == EnumFacing.Axis.X) {
-            return 1;
-        }
-        else {
-            return axis == EnumFacing.Axis.Z ? 2 : 0;
-        }
-    }
-
     @Override
     public boolean trySpawnPortal (World worldIn, BlockPos pos) {
 
-        final BlockHuntingPortal.Size blockportal$size = new BlockHuntingPortal.Size(worldIn, pos, EnumFacing.Axis.X);
+        BlockHuntingPortal.FrameBuilder frameBuilder = new BlockHuntingPortal.FrameBuilder(worldIn, pos, EnumFacing.Axis.X);
 
-        if (blockportal$size.isValid() && blockportal$size.portalBlockCount == 0) {
-            blockportal$size.placePortalBlocks();
+        if (frameBuilder.isValid() && frameBuilder.portalBlockCount == 0) {
+
+            frameBuilder.placePortalBlocks();
             return true;
         }
-        else {
-            final BlockHuntingPortal.Size blockportal$size1 = new BlockHuntingPortal.Size(worldIn, pos, EnumFacing.Axis.Z);
 
-            if (blockportal$size1.isValid() && blockportal$size1.portalBlockCount == 0) {
-                blockportal$size1.placePortalBlocks();
+        else {
+
+            frameBuilder = new BlockHuntingPortal.FrameBuilder(worldIn, pos, EnumFacing.Axis.Z);
+
+            if (frameBuilder.isValid() && frameBuilder.portalBlockCount == 0) {
+
+                frameBuilder.placePortalBlocks();
                 return true;
             }
-            else {
-                return false;
-            }
         }
+
+        return false;
     }
 
     @Override
     public void neighborChanged (IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 
-        final EnumFacing.Axis enumfacing$axis = state.getValue(AXIS);
+        final EnumFacing.Axis axis = state.getValue(AXIS);
 
-        if (enumfacing$axis == EnumFacing.Axis.X) {
-            final BlockHuntingPortal.Size blockportal$size = new BlockHuntingPortal.Size(worldIn, pos, EnumFacing.Axis.X);
+        if (axis == EnumFacing.Axis.X) {
 
-            if (!blockportal$size.isValid() || blockportal$size.portalBlockCount < blockportal$size.width * blockportal$size.height) {
+            final BlockHuntingPortal.FrameBuilder frameBuilder = new BlockHuntingPortal.FrameBuilder(worldIn, pos, EnumFacing.Axis.X);
+
+            if (!frameBuilder.isValid() || frameBuilder.portalBlockCount < frameBuilder.width * frameBuilder.height) {
+
                 worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
             }
         }
-        else if (enumfacing$axis == EnumFacing.Axis.Z) {
-            final BlockHuntingPortal.Size blockportal$size1 = new BlockHuntingPortal.Size(worldIn, pos, EnumFacing.Axis.Z);
 
-            if (!blockportal$size1.isValid() || blockportal$size1.portalBlockCount < blockportal$size1.width * blockportal$size1.height) {
+        else if (axis == EnumFacing.Axis.Z) {
+
+            final BlockHuntingPortal.FrameBuilder frameBuilder = new BlockHuntingPortal.FrameBuilder(worldIn, pos, EnumFacing.Axis.Z);
+
+            if (!frameBuilder.isValid() || frameBuilder.portalBlockCount < frameBuilder.width * frameBuilder.height) {
+
                 worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
             }
         }
     }
 
-    /**
-     * Called When an Entity Collided with the Block
-     */
     @Override
     public void onEntityCollidedWithBlock (World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 
-        if (worldIn.isRemote || !entityIn.isSneaking()) {
+        // Entity can't travel if they're not sneaking, riding a mob, being ridden, or a boss.
+        if (worldIn.isRemote || !entityIn.isSneaking() || entityIn.isRiding() || entityIn.isBeingRidden() || !entityIn.isNonBoss()) {
+
             return;
         }
 
-        if (!entityIn.isRiding() && !entityIn.isBeingRidden() && entityIn.isNonBoss()) {
+        // Only allow real players to teleport.
+        if (PlayerUtils.isPlayerReal(entityIn)) {
 
-            if (entityIn instanceof EntityPlayerMP) {
-                final EntityPlayerMP player = (EntityPlayerMP) entityIn;
+            final EntityPlayerMP player = (EntityPlayerMP) entityIn;
 
-                if (player.timeUntilPortal > 0) {
-                    player.timeUntilPortal = player.getPortalCooldown();
+            // If the player is in our dim already, send them to the overworld.
+            final int dimension = player.dimension == ConfigurationHandler.dimensionId ? DimensionType.OVERWORLD.getId() : ConfigurationHandler.dimensionId;
 
-                }
-                else if (player.dimension != ConfigurationHandler.dimensionId) {
-                    // player is not in the dimension
+            // Fire Forge's hooks and events.
+            if (ForgeHooks.onTravelToDimension(player, dimension)) {
 
-                    final int dimension = ConfigurationHandler.dimensionId;
+                // Stop the player from sneaking, so they don't get sent back.
+                player.setSneaking(false);
 
-                    if (!ForgeHooks.onTravelToDimension(player, dimension)) {
-                        return;
-                    }
-
-                    player.setSneaking(false);
-                    player.timeUntilPortal = player.getPortalCooldown();
-                    player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.mcServer.getWorld(dimension), HuntingDim.frame.getDefaultState(), this.getDefaultState()));
-
-                }
-                else {
-
-                    final int dimension = 0;
-
-                    if (!ForgeHooks.onTravelToDimension(player, dimension)) {
-                        return;
-                    }
-
-                    player.setSneaking(false);
-                    player.timeUntilPortal = player.getPortalCooldown();
-                    player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.mcServer.getWorld(dimension), HuntingDim.frame.getDefaultState(), this.getDefaultState()));
-                }
+                // Teleport the player using custom teleporter.
+                player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.mcServer.getWorld(dimension), HuntingDim.frame.getDefaultState(), this.getDefaultState()));
             }
-
         }
     }
 
@@ -158,56 +134,49 @@ public class BlockHuntingPortal extends BlockPortal {
         }
 
         for (int i = 0; i < 4; ++i) {
-            double d0 = pos.getX() + rand.nextFloat();
-            final double d1 = pos.getY() + rand.nextFloat();
-            double d2 = pos.getZ() + rand.nextFloat();
-            double d3 = (rand.nextFloat() - 0.5D) * 0.5D;
-            final double d4 = (rand.nextFloat() - 0.5D) * 0.5D;
-            double d5 = (rand.nextFloat() - 0.5D) * 0.5D;
-            final int j = rand.nextInt(2) * 2 - 1;
 
-            if (worldIn.getBlockState(pos.west()).getBlock() != this && worldIn.getBlockState(pos.east()).getBlock() != this) {
-                d0 = pos.getX() + 0.5D + 0.25D * j;
-                d3 = rand.nextFloat() * 2.0F * j;
-            }
-            else {
-                d2 = pos.getZ() + 0.5D + 0.25D * j;
-                d5 = rand.nextFloat() * 2.0F * j;
-            }
+            final double x = pos.getX() + rand.nextFloat();
+            final double y = pos.getY() + rand.nextFloat();
+            final double z = pos.getZ() + rand.nextFloat();
 
-            worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB, d0, d1, d2, 0f, 255f, 0f);
+            worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB, x, y, z, 0f, 1f, 0f);
         }
     }
 
     @Override
-    public BlockPattern.PatternHelper createPatternHelper (World worldIn, BlockPos p_181089_2_) {
+    public BlockPattern.PatternHelper createPatternHelper (World worldIn, BlockPos position) {
 
-        EnumFacing.Axis enumfacing$axis = EnumFacing.Axis.Z;
-        BlockHuntingPortal.Size blockportal$size = new BlockHuntingPortal.Size(worldIn, p_181089_2_, EnumFacing.Axis.X);
+        EnumFacing.Axis axis = EnumFacing.Axis.Z;
+
+        BlockHuntingPortal.FrameBuilder frameBuilder = new BlockHuntingPortal.FrameBuilder(worldIn, position, EnumFacing.Axis.X);
         final LoadingCache<BlockPos, BlockWorldState> loadingcache = BlockPattern.createLoadingCache(worldIn, true);
 
-        if (!blockportal$size.isValid()) {
-            enumfacing$axis = EnumFacing.Axis.X;
-            blockportal$size = new BlockHuntingPortal.Size(worldIn, p_181089_2_, EnumFacing.Axis.Z);
+        if (!frameBuilder.isValid()) {
+
+            axis = EnumFacing.Axis.X;
+            frameBuilder = new BlockHuntingPortal.FrameBuilder(worldIn, position, EnumFacing.Axis.Z);
         }
 
-        if (!blockportal$size.isValid()) {
-            return new BlockPattern.PatternHelper(p_181089_2_, EnumFacing.NORTH, EnumFacing.UP, loadingcache, 1, 1, 1);
+        if (!frameBuilder.isValid()) {
+
+            return new BlockPattern.PatternHelper(position, EnumFacing.NORTH, EnumFacing.UP, loadingcache, 1, 1, 1);
         }
+
         else {
             final int[] aint = new int[EnumFacing.AxisDirection.values().length];
-            final EnumFacing enumfacing = blockportal$size.rightDir.rotateYCCW();
-            final BlockPos blockpos = blockportal$size.bottomLeft.up(blockportal$size.getHeight() - 1);
+            final EnumFacing enumfacing = frameBuilder.rightDir.rotateYCCW();
+            final BlockPos blockpos = frameBuilder.bottomLeft.up(frameBuilder.getHeight() - 1);
 
-            for (final EnumFacing.AxisDirection enumfacing$axisdirection : EnumFacing.AxisDirection.values()) {
-                final BlockPattern.PatternHelper blockpattern$patternhelper = new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == enumfacing$axisdirection ? blockpos : blockpos.offset(blockportal$size.rightDir, blockportal$size.getWidth() - 1), EnumFacing.getFacingFromAxis(enumfacing$axisdirection, enumfacing$axis), EnumFacing.UP, loadingcache, blockportal$size.getWidth(), blockportal$size.getHeight(), 1);
+            for (final EnumFacing.AxisDirection orientation : EnumFacing.AxisDirection.values()) {
 
-                for (int i = 0; i < blockportal$size.getWidth(); ++i) {
-                    for (int j = 0; j < blockportal$size.getHeight(); ++j) {
-                        final BlockWorldState blockworldstate = blockpattern$patternhelper.translateOffset(i, j, 1);
+                final BlockPattern.PatternHelper patternHelper = new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == orientation ? blockpos : blockpos.offset(frameBuilder.rightDir, frameBuilder.getWidth() - 1), EnumFacing.getFacingFromAxis(orientation, axis), EnumFacing.UP, loadingcache, frameBuilder.getWidth(), frameBuilder.getHeight(), 1);
+
+                for (int i = 0; i < frameBuilder.getWidth(); ++i) {
+                    for (int j = 0; j < frameBuilder.getHeight(); ++j) {
+                        final BlockWorldState blockworldstate = patternHelper.translateOffset(i, j, 1);
 
                         if (blockworldstate.getBlockState() != null && blockworldstate.getBlockState().getMaterial() != Material.AIR) {
-                            ++aint[enumfacing$axisdirection.ordinal()];
+                            ++aint[orientation.ordinal()];
                         }
                     }
                 }
@@ -221,11 +190,11 @@ public class BlockHuntingPortal extends BlockPortal {
                 }
             }
 
-            return new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == enumfacing$axisdirection1 ? blockpos : blockpos.offset(blockportal$size.rightDir, blockportal$size.getWidth() - 1), EnumFacing.getFacingFromAxis(enumfacing$axisdirection1, enumfacing$axis), EnumFacing.UP, loadingcache, blockportal$size.getWidth(), blockportal$size.getHeight(), 1);
+            return new BlockPattern.PatternHelper(enumfacing.getAxisDirection() == enumfacing$axisdirection1 ? blockpos : blockpos.offset(frameBuilder.rightDir, frameBuilder.getWidth() - 1), EnumFacing.getFacingFromAxis(enumfacing$axisdirection1, axis), EnumFacing.UP, loadingcache, frameBuilder.getWidth(), frameBuilder.getHeight(), 1);
         }
     }
 
-    public static class Size {
+    public static class FrameBuilder {
         private final World world;
         private final EnumFacing.Axis axis;
         private final EnumFacing rightDir;
@@ -235,12 +204,12 @@ public class BlockHuntingPortal extends BlockPortal {
         private int height;
         private int width;
 
-        public Size (World worldIn, BlockPos p_i45694_2_, EnumFacing.Axis p_i45694_3_) {
+        public FrameBuilder (World worldIn, BlockPos position, EnumFacing.Axis axis) {
 
             this.world = worldIn;
-            this.axis = p_i45694_3_;
+            this.axis = axis;
 
-            if (p_i45694_3_ == EnumFacing.Axis.X) {
+            if (axis == EnumFacing.Axis.X) {
                 this.leftDir = EnumFacing.EAST;
                 this.rightDir = EnumFacing.WEST;
             }
@@ -249,14 +218,14 @@ public class BlockHuntingPortal extends BlockPortal {
                 this.rightDir = EnumFacing.SOUTH;
             }
 
-            for (final BlockPos blockpos = p_i45694_2_; p_i45694_2_.getY() > blockpos.getY() - 21 && p_i45694_2_.getY() > 0 && this.isEmptyBlock(worldIn.getBlockState(p_i45694_2_.down())); p_i45694_2_ = p_i45694_2_.down()) {
+            for (final BlockPos blockpos = position; position.getY() > blockpos.getY() - 21 && position.getY() > 0 && this.isEmptyBlock(worldIn.getBlockState(position.down())); position = position.down()) {
                 ;
             }
 
-            final int i = this.getDistanceUntilEdge(p_i45694_2_, this.leftDir) - 1;
+            final int i = this.getDistanceUntilEdge(position, this.leftDir) - 1;
 
             if (i >= 0) {
-                this.bottomLeft = p_i45694_2_.offset(this.leftDir, i);
+                this.bottomLeft = position.offset(this.leftDir, i);
                 this.width = this.getDistanceUntilEdge(this.bottomLeft, this.rightDir);
 
                 if (this.width < 2 || this.width > 21) {
