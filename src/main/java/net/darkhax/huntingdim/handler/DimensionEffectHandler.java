@@ -3,6 +3,7 @@ package net.darkhax.huntingdim.handler;
 import java.util.UUID;
 
 import net.darkhax.bookshelf.data.AttributeOperation;
+import net.darkhax.bookshelf.util.MathsUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -12,6 +13,8 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.event.entity.living.LootingLevelEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class DimensionEffectHandler {
@@ -19,6 +22,29 @@ public class DimensionEffectHandler {
     public static final AttributeModifier BUFF_ARMOR = new AttributeModifier(UUID.fromString("054ab076-0a2e-4ea4-b525-b201fcf4a2a7"), "buff_hunting_armor", ConfigurationHandler.buffArmor, AttributeOperation.ADDITIVE.ordinal());
     public static final AttributeModifier BUFF_HEALTH = new AttributeModifier(UUID.fromString("d52efdc2-53fc-42ab-80ed-9fe79d219ff7"), "buff_hunting_health", ConfigurationHandler.buffHealth, AttributeOperation.MULTIPLY.ordinal());
     public static final AttributeModifier BUFF_ATTACK = new AttributeModifier(UUID.fromString("d86f9cdc-8a12-492a-a0ad-e8cdded32ab7"), "buff_hunting_attack", ConfigurationHandler.buffAttack, AttributeOperation.MULTIPLY.ordinal());
+
+    @SubscribeEvent
+    public void onExpCalculated (LivingExperienceDropEvent event) {
+
+        // Check if entity is in the hunting dimension, and run a % chance
+        if (event.getEntityLiving() != null && event.getEntityLiving().dimension == ConfigurationHandler.dimensionId && MathsUtils.tryPercentage(ConfigurationHandler.expChance)) {
+
+            // Increase experience points based on a modifier.
+            final int additional = (int) (event.getOriginalExperience() * ConfigurationHandler.expMultiplier / event.getOriginalExperience());
+            event.setDroppedExperience(additional);
+        }
+    }
+
+    @SubscribeEvent
+    public void onLootingCalculated (LootingLevelEvent event) {
+
+        // Check if entity is in the hunting dimension, and run a % chance
+        if (event.getEntityLiving() != null && event.getEntityLiving().dimension == ConfigurationHandler.dimensionId && MathsUtils.tryPercentage(ConfigurationHandler.lootingChance)) {
+
+            // Increase looting level by one.
+            event.setLootingLevel(event.getLootingLevel() + 1);
+        }
+    }
 
     @SubscribeEvent
     public void onEntityJoinWorld (LivingUpdateEvent event) {
