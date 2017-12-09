@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.google.common.cache.LoadingCache;
 
+import net.darkhax.bookshelf.lib.Constants;
 import net.darkhax.bookshelf.util.PlayerUtils;
 import net.darkhax.huntingdim.HuntingDim;
 import net.darkhax.huntingdim.dimension.TeleporterHunting;
@@ -22,6 +23,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
@@ -31,6 +33,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockHuntingPortal extends BlockPortal {
 
+    public static SoundEvent[] sounds = {SoundEvents.ENTITY_ZOMBIE_AMBIENT, SoundEvents.ENTITY_SKELETON_AMBIENT, SoundEvents.ENTITY_SPIDER_AMBIENT, SoundEvents.ENTITY_ENDERMEN_AMBIENT};
+    
     public BlockHuntingPortal () {
 
         super();
@@ -130,7 +134,8 @@ public class BlockHuntingPortal extends BlockPortal {
     public void randomDisplayTick (IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 
         if (rand.nextInt(100) == 0) {
-            worldIn.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.BLOCK_PORTAL_AMBIENT, SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F, false);
+            
+            worldIn.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, sounds[Constants.RANDOM.nextInt(sounds.length)], SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F, false);
         }
 
         for (int i = 0; i < 4; ++i) {
