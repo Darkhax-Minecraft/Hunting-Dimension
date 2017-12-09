@@ -33,8 +33,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockHuntingPortal extends BlockPortal {
 
-    public static SoundEvent[] sounds = {SoundEvents.ENTITY_ZOMBIE_AMBIENT, SoundEvents.ENTITY_SKELETON_AMBIENT, SoundEvents.ENTITY_SPIDER_AMBIENT, SoundEvents.ENTITY_ENDERMEN_AMBIENT};
-    
+    public static SoundEvent[] sounds = { SoundEvents.ENTITY_ZOMBIE_AMBIENT, SoundEvents.ENTITY_SKELETON_AMBIENT, SoundEvents.ENTITY_SPIDER_AMBIENT, SoundEvents.ENTITY_ENDERMEN_AMBIENT };
+
     public BlockHuntingPortal () {
 
         super();
@@ -134,7 +134,7 @@ public class BlockHuntingPortal extends BlockPortal {
     public void randomDisplayTick (IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 
         if (rand.nextInt(100) == 0) {
-            
+
             worldIn.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, sounds[Constants.RANDOM.nextInt(sounds.length)], SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F, false);
         }
 
