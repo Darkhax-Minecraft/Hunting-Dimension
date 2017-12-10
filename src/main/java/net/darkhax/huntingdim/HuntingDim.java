@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = "huntingdim", name = "Hunting Dimension", version = "@VERSION@", certificateFingerprint = "@FINGERPRINT@")
+@Mod(modid = "huntingdim", name = "Hunting Dimension", version = "@VERSION@", dependencies = "required-after:bookshelf@[2.3.509,)", certificateFingerprint = "@FINGERPRINT@")
 public class HuntingDim {
 
     public static DimensionType dimensionType;
