@@ -4,3 +4,8 @@ tile.huntingdim.portal.name=Hunting Dimension Portal
 
 #Item Names
 item.huntingdim.biome.changer.name=Creeping Moss
+
+#JEI Descriptions
+jei.tile.huntingdim.frame=The frame block for creating a portal to the hunting dimension. The construction and shape requirements are the same as the nether portal. The portal is activated by right clicking on it with a sword, bow, or flint and steel. To go through this portal you need to sneak.
+jei.tile.huntingdim.portal=The portal to the hunting dimension. To go through this portal you need to sneak.
+jei.item.huntingdim.biome.changer=This moss allows for the biome of a chunk in the hunting dimension to be changed. Sneaking while right clicking with the moss will set the moss's biome type to the biome you are currently in. Right clicking normally with the moss, while in the hunting dimension will change the biome of the current chunk to the biome represented by the moss. This will ONLY work in the hunting dimension.
