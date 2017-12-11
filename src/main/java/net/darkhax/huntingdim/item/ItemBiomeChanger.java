@@ -64,18 +64,7 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
     @SideOnly(Side.CLIENT)
     public IItemColor getColorHandler () {
 
-        return new Color();
-    }
-
-    public class Color implements IItemColor {
-
-        @Override
-        public int colorMultiplier (ItemStack stack, int tintIndex) {
-
-            // System.out.println(getColorForStack(stack));
-            return getColorForStack(stack, true);
-        }
-
+        return (stack, index) -> getColorForStack(stack, true);
     }
 
     public ItemStack createFromBiome (Biome biome) {
