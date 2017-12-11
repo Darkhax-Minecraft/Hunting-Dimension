@@ -8,6 +8,7 @@ import net.darkhax.huntingdim.block.BlockHuntingPortal;
 import net.darkhax.huntingdim.dimension.WorldProviderHunting;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.darkhax.huntingdim.handler.DimensionEffectHandler;
+import net.darkhax.huntingdim.item.ItemBiomeChanger;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
@@ -42,6 +43,7 @@ public class HuntingDim {
         frameItem = new ItemBlock(frame);
         REGISTRY.registerBlock(frame, frameItem, "frame");
         portal = REGISTRY.registerBlock(new BlockHuntingPortal(), "portal");
+        REGISTRY.registerItem(new ItemBiomeChanger(), "biome_changer");
 
         REGISTRY.addShapedRecipe("portal_frame", new ItemStack(frameItem, 4), "xxx", "xyx", "xxx", 'x', OreDictUtils.LOG_WOOD, 'y', OreDictUtils.ARROW);
 
