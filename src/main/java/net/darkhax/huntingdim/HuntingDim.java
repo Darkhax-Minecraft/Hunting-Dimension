@@ -11,6 +11,9 @@ import net.darkhax.huntingdim.handler.DimensionEffectHandler;
 import net.darkhax.huntingdim.item.ItemBiomeChanger;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Biomes;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.DimensionType;
@@ -31,6 +34,7 @@ public class HuntingDim {
     public static Block portal;
     public static Block frame;
     public static ItemBlock frameItem;
+    public static Item moss;
 
     @EventHandler
     public void preInit (FMLPreInitializationEvent event) {
@@ -43,10 +47,26 @@ public class HuntingDim {
         frameItem = new ItemBlock(frame);
         REGISTRY.registerBlock(frame, frameItem, "frame");
         portal = REGISTRY.registerBlock(new BlockHuntingPortal(), "portal");
-        REGISTRY.registerItem(new ItemBiomeChanger(), "biome_changer");
+        moss = REGISTRY.registerItem(new ItemBiomeChanger(), "biome_changer");
 
         REGISTRY.addShapedRecipe("portal_frame", new ItemStack(frameItem, 4), "xxx", "xyx", "xxx", 'x', OreDictUtils.LOG_WOOD, 'y', OreDictUtils.ARROW);
 
+        // Basic moss recipes
+        final ItemStack mossPlains = ItemBiomeChanger.setBiome(new ItemStack(moss, 4, 0), Biomes.PLAINS);
+        REGISTRY.addShapedRecipe("moss_sappling", mossPlains, "xxx", "xyx", "xxx", 'x', OreDictUtils.TREE_SAPLING, 'y', Blocks.MOSSY_COBBLESTONE);
+        REGISTRY.addShapedRecipe("moss_leaves", mossPlains, "xxx", "xyx", "xxx", 'x', OreDictUtils.TREE_LEAVES, 'y', Blocks.MOSSY_COBBLESTONE);
+        REGISTRY.addShapedRecipe("moss_vines", mossPlains, "xxx", "xyx", "xxx", 'x', OreDictUtils.VINE, 'y', Blocks.MOSSY_COBBLESTONE);
+
+        // Special moss recipes
+        REGISTRY.addShapedRecipe("moss_special_nether", ItemBiomeChanger.setBiome(mossPlains.copy(), Biomes.HELL), "xxx", "xyx", "xxx", 'x', OreDictUtils.NETHERRACK, 'y', moss);
+        REGISTRY.addShapedRecipe("moss_special_end", ItemBiomeChanger.setBiome(mossPlains.copy(), Biomes.SKY), "xxx", "xyx", "xxx", 'x', OreDictUtils.ENDSTONE, 'y', moss);
+        REGISTRY.addShapedRecipe("moss_special_ice", ItemBiomeChanger.setBiome(mossPlains.copy(), Biomes.ICE_PLAINS), "xxx", "xyx", "xxx", 'x', Blocks.ICE, 'y', moss);
+        REGISTRY.addShapedRecipe("moss_special_dessert", ItemBiomeChanger.setBiome(mossPlains.copy(), Biomes.DESERT), "xxx", "xyx", "xxx", 'x', OreDictUtils.SAND, 'y', moss);
+        REGISTRY.addShapedRecipe("moss_special_jungle", ItemBiomeChanger.setBiome(mossPlains.copy(), Biomes.JUNGLE), "xxx", "xyx", "xxx", 'x', OreDictUtils.DYE_BROWN, 'y', moss);
+        REGISTRY.addShapedRecipe("moss_special_swamp_red", ItemBiomeChanger.setBiome(mossPlains.copy(), Biomes.SWAMPLAND), "xxx", "xyx", "xxx", 'x', Blocks.RED_MUSHROOM, 'y', moss);
+        REGISTRY.addShapedRecipe("moss_special_swamp_brown", ItemBiomeChanger.setBiome(mossPlains.copy(), Biomes.SWAMPLAND), "xxx", "xyx", "xxx", 'x', Blocks.BROWN_MUSHROOM, 'y', moss);
+        REGISTRY.addShapedRecipe("moss_special_mesa", ItemBiomeChanger.setBiome(mossPlains.copy(), Biomes.MESA), "xxx", "xyx", "xxx", 'x', Blocks.HARDENED_CLAY, 'y', moss);
+        REGISTRY.addShapedRecipe("moss_special_mesa_stained", ItemBiomeChanger.setBiome(mossPlains.copy(), Biomes.MESA), "xxx", "xyx", "xxx", 'x', Blocks.STAINED_HARDENED_CLAY, 'y', moss);
         MinecraftForge.EVENT_BUS.register(new DimensionEffectHandler());
     }
 }
