@@ -6,6 +6,8 @@ import javax.annotation.Nullable;
 
 import net.darkhax.bookshelf.item.IColorfulItem;
 import net.darkhax.bookshelf.util.StackUtils;
+import net.darkhax.huntingdim.HuntingDim;
+import net.darkhax.huntingdim.Messages;
 import net.darkhax.huntingdim.WorldUtils;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
@@ -40,9 +42,34 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
     @Override
     public ActionResult<ItemStack> onItemRightClick (World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 
-        WorldUtils.setBiomes(worldIn, playerIn.getPosition(), ItemBiomeChanger.getBiomeForStack(playerIn.getHeldItem(handIn)));
+        final ItemStack stack = playerIn.getHeldItem(handIn);
 
-        return new ActionResult<>(EnumActionResult.PASS, playerIn.getHeldItem(handIn));
+        // Player has set the biome of the moss
+        if (playerIn.isSneaking()) {
+
+            final Biome biome = worldIn.getBiome(playerIn.getPosition());
+            setBiome(stack, biome);
+            Messages.CHANGER_SET_SELF.sendMessage(playerIn, biome.getRegistryName());
+            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+        }
+
+        // Player must be in the hunting dimension
+        if (!WorldUtils.isDimension(worldIn, HuntingDim.dimensionType)) {
+
+            Messages.CHANGER_INVALID_DIMENSION.sendMessage(playerIn);
+            return new ActionResult<>(EnumActionResult.FAIL, stack);
+        }
+
+        // Not allowed to use if the biome is the existing biome.
+        if (worldIn.getBiome(playerIn.getPosition()) == getBiomeForStack(playerIn.getHeldItem(handIn))) {
+
+            Messages.CHANGER_BIOME_EXISTS.sendMessage(playerIn);
+            return new ActionResult<>(EnumActionResult.PASS, stack);
+        }
+
+        WorldUtils.setBiomes(worldIn, playerIn.getPosition(), ItemBiomeChanger.getBiomeForStack(stack));
+        Messages.CHANGER_SET_WORLD.sendMessage(playerIn, getBiomeForStack(stack).getRegistryName());
+        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 
     @Override
@@ -69,7 +96,11 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
 
     public ItemStack createFromBiome (Biome biome) {
 
-        final ItemStack stack = new ItemStack(this);
+        return setBiome(new ItemStack(this), biome);
+    }
+
+    public static ItemStack setBiome (ItemStack stack, Biome biome) {
+
         final NBTTagCompound tag = StackUtils.prepareStackTag(stack);
         tag.setInteger("HeldBiome", Biome.getIdForBiome(biome));
         return stack;

@@ -7,7 +7,9 @@ import com.google.common.cache.LoadingCache;
 import net.darkhax.bookshelf.lib.Constants;
 import net.darkhax.bookshelf.util.PlayerUtils;
 import net.darkhax.huntingdim.HuntingDim;
+import net.darkhax.huntingdim.Messages;
 import net.darkhax.huntingdim.dimension.TeleporterHunting;
+import net.darkhax.huntingdim.event.EntityTravelToDimensionEventWrapped;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
@@ -27,7 +29,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -118,13 +119,18 @@ public class BlockHuntingPortal extends BlockPortal {
             final int dimension = player.dimension == ConfigurationHandler.dimensionId ? DimensionType.OVERWORLD.getId() : ConfigurationHandler.dimensionId;
 
             // Fire Forge's hooks and events.
-            if (ForgeHooks.onTravelToDimension(player, dimension)) {
+            if (EntityTravelToDimensionEventWrapped.onTravelToDimension(player, dimension)) {
 
                 // Stop the player from sneaking, so they don't get sent back.
                 player.setSneaking(false);
 
                 // Teleport the player using custom teleporter.
                 player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.mcServer.getWorld(dimension), HuntingDim.frame.getDefaultState(), this.getDefaultState()));
+            }
+
+            else {
+
+                Messages.TELEPORTER_CANCELED.sendMessage(player);
             }
         }
     }

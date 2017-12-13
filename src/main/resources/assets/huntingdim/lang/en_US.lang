@@ -5,6 +5,13 @@ tile.huntingdim.portal.name=Hunting Dimension Portal
 #Item Names
 item.huntingdim.biome.changer.name=Creeping Moss
 
+#Chat Messages
+chat.huntingdim.changer.invalid.dim=This item can only change biomes in the hunting dimension.
+chat.huntingdim.changer.biome.exists=This biome is already the type you're trying to change it to.
+chat.huntingdim.changer.set.self=The biome of the moss has been set to %s.
+chat.huntingdim.changer.set.world=The biome of the chunk has been set to %s.
+chat.huntingdim.teleporter.canceled=Another mod is preventing access to the hunting dimension.
+
 #JEI Descriptions
 jei.tile.huntingdim.frame=The frame block for creating a portal to the hunting dimension. The construction and shape requirements are the same as the nether portal. The portal is activated by right clicking on it with a sword, bow, or flint and steel. To go through this portal you need to sneak.
 jei.tile.huntingdim.portal=The portal to the hunting dimension. To go through this portal you need to sneak.
