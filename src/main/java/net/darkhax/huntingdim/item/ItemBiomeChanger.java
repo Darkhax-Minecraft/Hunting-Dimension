@@ -6,9 +6,9 @@ import javax.annotation.Nullable;
 
 import net.darkhax.bookshelf.item.IColorfulItem;
 import net.darkhax.bookshelf.util.StackUtils;
+import net.darkhax.bookshelf.util.WorldUtils;
 import net.darkhax.huntingdim.HuntingDim;
 import net.darkhax.huntingdim.Messages;
-import net.darkhax.huntingdim.WorldUtils;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
