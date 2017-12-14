@@ -118,6 +118,6 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
     public static int getColorForStack (ItemStack stack, boolean isGrass) {
 
         final Biome biome = getBiomeForStack(stack);
-        return biome == null ? MCColor.WHITE.getRGB() : isGrass ? biome.getGrassColorAtPos(new BlockPos(0, 255, 0)) : biome.getSkyColorByTemp(biome.getDefaultTemperature());
+        return biome == null ? MCColor.DYE_WHITE.getRGB() : isGrass ? biome.getGrassColorAtPos(new BlockPos(0, 255, 0)) : biome.getSkyColorByTemp(biome.getDefaultTemperature());
     }
 }
