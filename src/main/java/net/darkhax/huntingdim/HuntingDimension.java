@@ -5,12 +5,12 @@ import net.darkhax.bookshelf.registry.RegistryHelper;
 import net.darkhax.bookshelf.util.OreDictUtils;
 import net.darkhax.huntingdim.block.BlockHuntingFrame;
 import net.darkhax.huntingdim.block.BlockHuntingPortal;
+import net.darkhax.huntingdim.creativetab.CreativeTabHunting;
 import net.darkhax.huntingdim.dimension.WorldProviderHunting;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.darkhax.huntingdim.handler.DimensionEffectHandler;
 import net.darkhax.huntingdim.item.ItemBiomeChanger;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -29,7 +29,7 @@ public class HuntingDimension {
     public static DimensionType dimensionType;
 
     public static final LoggingHelper LOG = new LoggingHelper("Hunting Dimension");
-    public static final RegistryHelper REGISTRY = new RegistryHelper().setTab(CreativeTabs.MISC).enableAutoRegistration();
+    public static final RegistryHelper REGISTRY = new RegistryHelper().setTab(new CreativeTabHunting()).enableAutoRegistration();
 
     public static Block portal;
     public static Block frame;
