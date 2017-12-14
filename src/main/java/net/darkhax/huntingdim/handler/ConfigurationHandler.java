@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 
-import net.darkhax.huntingdim.HuntingDim;
+import net.darkhax.huntingdim.HuntingDimension;
 import net.minecraftforge.common.config.Configuration;
 
 public class ConfigurationHandler {
@@ -33,7 +33,7 @@ public class ConfigurationHandler {
 
         if (!directory.exists()) {
 
-            HuntingDim.LOG.info("Generating config folder");
+            HuntingDimension.LOG.info("Generating config folder");
             directory.mkdirs();
         }
 
@@ -48,37 +48,37 @@ public class ConfigurationHandler {
 
         if (!preset.exists()) {
 
-            HuntingDim.LOG.info("World generator settings does not exist. Generating a new one.");
+            HuntingDimension.LOG.info("World generator settings does not exist. Generating a new one.");
 
             try {
 
-                FileUtils.copyURLToFile(HuntingDim.class.getResource("/assets/huntingdim/presets/hunting_dimension_generator_settings.json"), preset);
-                HuntingDim.LOG.info("Finished generating world generator settings.");
+                FileUtils.copyURLToFile(HuntingDimension.class.getResource("/assets/huntingdim/presets/hunting_dimension_generator_settings.json"), preset);
+                HuntingDimension.LOG.info("Finished generating world generator settings.");
             }
 
             catch (final IOException e) {
 
-                HuntingDim.LOG.warn(e, "Could not generate world generator settings!");
+                HuntingDimension.LOG.warn(e, "Could not generate world generator settings!");
             }
         }
 
-        HuntingDim.LOG.info("Reading world generator settings.");
+        HuntingDimension.LOG.info("Reading world generator settings.");
 
         try {
 
             generatorPreset = FileUtils.readFileToString(preset, StandardCharsets.UTF_8);
-            HuntingDim.LOG.info("World settings loaded: " + generatorPreset.replaceAll("\\R", "").replaceAll("\\s", " "));
+            HuntingDimension.LOG.info("World settings loaded: " + generatorPreset.replaceAll("\\R", "").replaceAll("\\s", " "));
         }
 
         catch (final IOException e) {
 
-            HuntingDim.LOG.warn(e, "Could not read world generator settings! Default will be used!");
+            HuntingDimension.LOG.warn(e, "Could not read world generator settings! Default will be used!");
         }
     }
 
     private void syncConfigData () {
 
-        HuntingDim.LOG.info("Reading config file.");
+        HuntingDimension.LOG.info("Reading config file.");
         dimensionId = config.getInt("dimensionId", Configuration.CATEGORY_GENERAL, 28885, Integer.MIN_VALUE, Integer.MAX_VALUE, "The id for the hunting dimension.");
         quickPotionWearOff = config.getBoolean("quickPotionWearOff", Configuration.CATEGORY_GENERAL, true, "While true, beneficial potion effects on players will wear off twice as fast.");
         lootingChance = config.getFloat("lootingChance", Configuration.CATEGORY_GENERAL, 0.25f, 0f, 1f, "Whenever a mob dies in the hunting dimension, there is a chance that it will have +1 levels of looting applied to it's drop. Set to 0 to disable.");
@@ -91,7 +91,7 @@ public class ConfigurationHandler {
 
         if (config.hasChanged()) {
 
-            HuntingDim.LOG.info("Saving config file.");
+            HuntingDimension.LOG.info("Saving config file.");
             config.save();
         }
     }

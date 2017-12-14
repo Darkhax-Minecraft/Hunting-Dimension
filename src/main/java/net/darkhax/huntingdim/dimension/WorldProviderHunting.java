@@ -1,6 +1,6 @@
 package net.darkhax.huntingdim.dimension;
 
-import net.darkhax.huntingdim.HuntingDim;
+import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.DimensionType;
@@ -25,7 +25,7 @@ public class WorldProviderHunting extends WorldProvider {
     @Override
     public DimensionType getDimensionType () {
 
-        return HuntingDim.dimensionType;
+        return HuntingDimension.dimensionType;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package net.darkhax.huntingdim.block;
 
-import net.darkhax.huntingdim.HuntingDim;
+import net.darkhax.huntingdim.HuntingDimension;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -38,7 +38,7 @@ public class BlockHuntingFrame extends Block {
 
         if (item instanceof ItemSword || item instanceof ItemBow || item == Items.FLINT_AND_STEEL) {
 
-            ((BlockHuntingPortal) HuntingDim.portal).trySpawnPortal(worldIn, pos.offset(facing));
+            ((BlockHuntingPortal) HuntingDimension.portal).trySpawnPortal(worldIn, pos.offset(facing));
             return true;
         }
 

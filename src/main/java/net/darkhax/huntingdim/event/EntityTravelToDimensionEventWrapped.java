@@ -2,7 +2,7 @@ package net.darkhax.huntingdim.event;
 
 import java.util.Arrays;
 
-import net.darkhax.huntingdim.HuntingDim;
+import net.darkhax.huntingdim.HuntingDimension;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecartContainer;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,7 +25,7 @@ public class EntityTravelToDimensionEventWrapped extends EntityTravelToDimension
     public void setCanceled (boolean cancel) {
 
         super.setCanceled(cancel);
-        HuntingDim.LOG.noticableWarning(true, Arrays.asList("Teleportation was canceled!", "This is not necessarily an issue."));
+        HuntingDimension.LOG.noticableWarning(true, Arrays.asList("Teleportation was canceled!", "This is not necessarily an issue."));
     }
 
     public static boolean onTravelToDimension (Entity entity, int dimension) {

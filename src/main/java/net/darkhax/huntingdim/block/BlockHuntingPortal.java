@@ -6,7 +6,7 @@ import com.google.common.cache.LoadingCache;
 
 import net.darkhax.bookshelf.lib.Constants;
 import net.darkhax.bookshelf.util.PlayerUtils;
-import net.darkhax.huntingdim.HuntingDim;
+import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.Messages;
 import net.darkhax.huntingdim.dimension.TeleporterHunting;
 import net.darkhax.huntingdim.event.EntityTravelToDimensionEventWrapped;
@@ -132,7 +132,7 @@ public class BlockHuntingPortal extends BlockPortal {
                 player.setSneaking(false);
 
                 // Teleport the player using custom teleporter.
-                player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.mcServer.getWorld(dimension), HuntingDim.frame.getDefaultState(), this.getDefaultState()));
+                player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.mcServer.getWorld(dimension), HuntingDimension.frame.getDefaultState(), this.getDefaultState()));
             }
 
             // Event was canceled
@@ -152,7 +152,7 @@ public class BlockHuntingPortal extends BlockPortal {
             }
 
             // Put debug info in the logs
-            HuntingDim.LOG.info("Could not teleport {} because they are an invalid player entity! Class is {}", entityIn.getDisplayName().getUnformattedText(), entityIn.getClass().toString());
+            HuntingDimension.LOG.info("Could not teleport {} because they are an invalid player entity! Class is {}", entityIn.getDisplayName().getUnformattedText(), entityIn.getClass().toString());
         }
     }
 
@@ -278,13 +278,13 @@ public class BlockHuntingPortal extends BlockPortal {
             for (i = 0; i < 22; ++i) {
                 final BlockPos blockpos = p_180120_1_.offset(p_180120_2_, i);
 
-                if (!this.isEmptyBlock(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() != HuntingDim.frame) {
+                if (!this.isEmptyBlock(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() != HuntingDimension.frame) {
                     break;
                 }
             }
 
             final Block block = this.world.getBlockState(p_180120_1_.offset(p_180120_2_, i)).getBlock();
-            return block == HuntingDim.frame ? i : 0;
+            return block == HuntingDimension.frame ? i : 0;
         }
 
         public int getHeight () {
@@ -310,21 +310,21 @@ public class BlockHuntingPortal extends BlockPortal {
                         break label56;
                     }
 
-                    if (block == HuntingDim.portal) {
+                    if (block == HuntingDimension.portal) {
                         ++this.portalBlockCount;
                     }
 
                     if (i == 0) {
                         block = this.world.getBlockState(blockpos.offset(this.leftDir)).getBlock();
 
-                        if (block != HuntingDim.frame) {
+                        if (block != HuntingDimension.frame) {
                             break label56;
                         }
                     }
                     else if (i == this.width - 1) {
                         block = this.world.getBlockState(blockpos.offset(this.rightDir)).getBlock();
 
-                        if (block != HuntingDim.frame) {
+                        if (block != HuntingDimension.frame) {
                             break label56;
                         }
                     }
@@ -332,7 +332,7 @@ public class BlockHuntingPortal extends BlockPortal {
             }
 
             for (int j = 0; j < this.width; ++j) {
-                if (this.world.getBlockState(this.bottomLeft.offset(this.rightDir, j).up(this.height)).getBlock() != HuntingDim.frame) {
+                if (this.world.getBlockState(this.bottomLeft.offset(this.rightDir, j).up(this.height)).getBlock() != HuntingDimension.frame) {
                     this.height = 0;
                     break;
                 }
@@ -351,7 +351,7 @@ public class BlockHuntingPortal extends BlockPortal {
 
         protected boolean isEmptyBlock (IBlockState blockIn) {
 
-            return blockIn.getMaterial() == Material.AIR || blockIn.getBlock() == Blocks.FIRE || blockIn.getBlock() == HuntingDim.portal;
+            return blockIn.getMaterial() == Material.AIR || blockIn.getBlock() == Blocks.FIRE || blockIn.getBlock() == HuntingDimension.portal;
         }
 
         public boolean isValid () {
@@ -365,7 +365,7 @@ public class BlockHuntingPortal extends BlockPortal {
                 final BlockPos blockpos = this.bottomLeft.offset(this.rightDir, i);
 
                 for (int j = 0; j < this.height; ++j) {
-                    this.world.setBlockState(blockpos.up(j), HuntingDim.portal.getDefaultState().withProperty(BlockPortal.AXIS, this.axis), 2);
+                    this.world.setBlockState(blockpos.up(j), HuntingDimension.portal.getDefaultState().withProperty(BlockPortal.AXIS, this.axis), 2);
                 }
             }
         }

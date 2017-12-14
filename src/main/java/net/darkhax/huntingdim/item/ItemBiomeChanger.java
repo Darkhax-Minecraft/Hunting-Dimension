@@ -8,7 +8,7 @@ import net.darkhax.bookshelf.item.IColorfulItem;
 import net.darkhax.bookshelf.lib.MCColor;
 import net.darkhax.bookshelf.util.StackUtils;
 import net.darkhax.bookshelf.util.WorldUtils;
-import net.darkhax.huntingdim.HuntingDim;
+import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.Messages;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
@@ -55,7 +55,7 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
         }
 
         // Player must be in the hunting dimension
-        if (!WorldUtils.isDimension(worldIn, HuntingDim.dimensionType)) {
+        if (!WorldUtils.isDimension(worldIn, HuntingDimension.dimensionType)) {
 
             Messages.CHANGER_INVALID_DIMENSION.sendMessage(playerIn);
             return new ActionResult<>(EnumActionResult.FAIL, stack);
