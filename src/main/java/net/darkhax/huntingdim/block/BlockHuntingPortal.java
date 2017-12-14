@@ -105,7 +105,7 @@ public class BlockHuntingPortal extends BlockPortal {
     public void onEntityCollidedWithBlock (World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 
         // Entity can't travel if they're not sneaking, riding a mob, being ridden, or a boss.
-        if (worldIn.isRemote || !entityIn.isSneaking() || entityIn.isRiding() || entityIn.isBeingRidden() || !entityIn.isNonBoss()) {
+        if (worldIn.isRemote || !entityIn.isSneaking() || entityIn.isRiding() || entityIn.isBeingRidden()) {
 
             return;
         }
