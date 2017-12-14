@@ -10,7 +10,9 @@ public enum Messages {
     CHANGER_BIOME_EXISTS("changer.biome.exists"),
     CHANGER_SET_SELF("changer.set.self"),
     CHANGER_SET_WORLD("changer.set.world"),
-    TELEPORTER_CANCELED("teleporter.canceled");
+    TELEPORTER_CANCELED("teleporter.canceled"),
+    TELEPORTER_MOUNTED("teleporter.mounted");
+    
 
     private final String key;
     private final boolean isChat;

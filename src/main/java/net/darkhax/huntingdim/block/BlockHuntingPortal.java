@@ -104,8 +104,8 @@ public class BlockHuntingPortal extends BlockPortal {
     @Override
     public void onEntityCollidedWithBlock (World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 
-        // Entity can't travel if they're not sneaking, riding a mob, being ridden, or a boss.
-        if (worldIn.isRemote || !entityIn.isSneaking() || entityIn.isRiding() || entityIn.isBeingRidden()) {
+        // Ignore client side players, and players who are not sneaking.
+        if (worldIn.isRemote || !entityIn.isSneaking()) {
 
             return;
         }
@@ -114,6 +114,12 @@ public class BlockHuntingPortal extends BlockPortal {
         if (PlayerUtils.isPlayerReal(entityIn)) {
 
             final EntityPlayerMP player = (EntityPlayerMP) entityIn;
+            
+            // Mounted players can not go through.
+            if (entityIn.isRiding() || entityIn.isBeingRidden()) {
+                
+                Messages.TELEPORTER_MOUNTED.sendMessage(player);
+            }
 
             // If the player is in our dim already, send them to the overworld.
             final int dimension = player.dimension == ConfigurationHandler.dimensionId ? DimensionType.OVERWORLD.getId() : ConfigurationHandler.dimensionId;
