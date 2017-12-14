@@ -18,6 +18,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -114,10 +115,10 @@ public class BlockHuntingPortal extends BlockPortal {
         if (PlayerUtils.isPlayerReal(entityIn)) {
 
             final EntityPlayerMP player = (EntityPlayerMP) entityIn;
-            
+
             // Mounted players can not go through.
             if (entityIn.isRiding() || entityIn.isBeingRidden()) {
-                
+
                 Messages.TELEPORTER_MOUNTED.sendMessage(player);
             }
 
@@ -134,10 +135,24 @@ public class BlockHuntingPortal extends BlockPortal {
                 player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.mcServer.getWorld(dimension), HuntingDim.frame.getDefaultState(), this.getDefaultState()));
             }
 
+            // Event was canceled
             else {
 
                 Messages.TELEPORTER_CANCELED.sendMessage(player);
             }
+        }
+
+        // Player is invalid
+        else {
+
+            // Let them know
+            if (entityIn instanceof ICommandSender) {
+
+                Messages.TELEPORTER_INVALID_PLAYER.sendMessage(entityIn);
+            }
+
+            // Put debug info in the logs
+            HuntingDim.LOG.info("Could not teleport {} because they are an invalid player entity! Class is {}", entityIn.getDisplayName().getUnformattedText(), entityIn.getClass().toString());
         }
     }
 

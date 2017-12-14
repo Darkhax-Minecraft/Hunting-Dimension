@@ -1,6 +1,6 @@
 package net.darkhax.huntingdim;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 
@@ -11,8 +11,8 @@ public enum Messages {
     CHANGER_SET_SELF("changer.set.self"),
     CHANGER_SET_WORLD("changer.set.world"),
     TELEPORTER_CANCELED("teleporter.canceled"),
-    TELEPORTER_MOUNTED("teleporter.mounted");
-    
+    TELEPORTER_MOUNTED("teleporter.mounted"),
+    TELEPORTER_INVALID_PLAYER("teleporter.invalid.player");
 
     private final String key;
     private final boolean isChat;
@@ -28,7 +28,7 @@ public enum Messages {
         this.isChat = isChat;
     }
 
-    public void sendMessage (EntityPlayer player, Object... args) {
+    public void sendMessage (ICommandSender player, Object... args) {
 
         final ITextComponent text = new TextComponentTranslation("chat.huntingdim." + this.key, args);
 
@@ -39,7 +39,7 @@ public enum Messages {
 
         else {
 
-            player.sendStatusMessage(text, true);
+            player.sendMessage(text);
         }
     }
 }
