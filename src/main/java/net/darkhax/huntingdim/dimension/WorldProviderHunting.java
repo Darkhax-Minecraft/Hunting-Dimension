@@ -10,6 +10,8 @@ import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldProviderHunting extends WorldProvider {
 
+    private static final long MIDNIGHT = 18000;
+
     @Override
     public IChunkGenerator createChunkGenerator () {
 
@@ -50,5 +52,23 @@ public class WorldProviderHunting extends WorldProvider {
     public float calculateCelestialAngle (long worldTime, float partialTicks) {
 
         return 0f;
+    }
+
+    @Override
+    public boolean isDaytime () {
+
+        return false;
+    }
+
+    @Override
+    public void setWorldTime (long time) {
+
+        this.world.getWorldInfo().setWorldTime(MIDNIGHT);
+    }
+
+    @Override
+    public long getWorldTime () {
+
+        return MIDNIGHT;
     }
 }
