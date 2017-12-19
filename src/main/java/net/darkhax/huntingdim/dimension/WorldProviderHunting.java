@@ -7,17 +7,10 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeProviderSingle;
-import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldProviderHunting extends WorldProvider {
 
     private static final long MIDNIGHT = 18000;
-
-    @Override
-    public IChunkGenerator createChunkGenerator () {
-
-        return this.terrainType.getChunkGenerator(this.world, ConfigurationHandler.generatorPreset);
-    }
 
     @Override
     protected void init () {
@@ -36,6 +29,9 @@ public class WorldProviderHunting extends WorldProvider {
                 }
             }
         }
+
+        // Override generator settings
+        this.generatorSettings = ConfigurationHandler.generatorPreset;
     }
 
     @Override
