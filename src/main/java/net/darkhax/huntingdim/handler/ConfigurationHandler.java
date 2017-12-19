@@ -29,6 +29,9 @@ public class ConfigurationHandler {
     public static float buffHealth = 0;
     public static float buffAttack = 0;
 
+    public static boolean mimicSurfaceWorld = false;
+    public static String worldType = "default";
+
     public ConfigurationHandler () {
 
         if (!directory.exists()) {
@@ -88,6 +91,9 @@ public class ConfigurationHandler {
         buffArmor = config.getInt("buffArmor", Configuration.CATEGORY_GENERAL, 4, 0, 30, "The amount of additional armor to give mobs that spawn in the hunting dimension.");
         buffHealth = config.getFloat("buffHealth", Configuration.CATEGORY_GENERAL, 0.3f, 0, 1000f, "The percentage of additional health to give mobs that spawn in the hunting dimension.");
         buffAttack = config.getFloat("buffAttack", Configuration.CATEGORY_GENERAL, 0.3f, 0, 1000f, "The percentage of additional attack damage to give mobs that spawn in the hunting dimension.");
+
+        mimicSurfaceWorld = config.getBoolean("mimicSurfaceWorld", Configuration.CATEGORY_GENERAL, false, "If true, the mining dimension will use the same world generator as the surface world. For example, if the surface is flat so will the dimension.");
+        worldType = config.getString("worldType", Configuration.CATEGORY_GENERAL, "default", "The type of world to use for the hunting dimension. Vanilla values include default, flat, largeBiomes, amplified, customized, debug_all_block_states, and default_1_1 Keep in mind that this will be ignored if you use mimicSurfaceWorld!");
 
         if (config.hasChanged()) {
 

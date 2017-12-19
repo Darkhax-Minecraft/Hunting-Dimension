@@ -5,6 +5,7 @@ import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
 
@@ -22,6 +23,19 @@ public class WorldProviderHunting extends WorldProvider {
     protected void init () {
 
         this.biomeProvider = new BiomeProviderSingle(Biomes.PLAINS);
+
+        // If we're not mimicking the surface world, use the configured world generator.
+        if (!ConfigurationHandler.mimicSurfaceWorld) {
+
+            for (final WorldType type : WorldType.WORLD_TYPES) {
+
+                if (ConfigurationHandler.worldType.equalsIgnoreCase(type.getName())) {
+
+                    this.terrainType = type;
+                    break;
+                }
+            }
+        }
     }
 
     @Override
