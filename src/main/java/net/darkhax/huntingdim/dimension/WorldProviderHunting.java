@@ -3,10 +3,13 @@ package net.darkhax.huntingdim.dimension;
 import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.minecraft.init.Biomes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldType;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProviderSingle;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 public class WorldProviderHunting extends WorldProvider {
 
@@ -15,7 +18,9 @@ public class WorldProviderHunting extends WorldProvider {
     @Override
     protected void init () {
 
-        this.biomeProvider = new BiomeProviderSingle(Biomes.PLAINS);
+        // Set the base biome to match config
+        final Biome configBiome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(ConfigurationHandler.defaultBiome));
+        this.biomeProvider = new BiomeProviderSingle(configBiome != null ? configBiome : Biomes.PLAINS);
 
         // If we're not mimicking the surface world, use the configured world generator.
         if (!ConfigurationHandler.mimicSurfaceWorld) {
