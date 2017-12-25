@@ -82,7 +82,7 @@ public class DimensionEffectHandler {
 
         // If entity is a player, and in the hunting dimension, and quick potion wear off is
         // enabled
-        if (event.getEntityLiving() instanceof EntityPlayer && ConfigurationHandler.quickPotionWearOff && event.getEntityLiving().dimension == ConfigurationHandler.dimensionId) {
+        if (event.getEntityLiving() instanceof EntityPlayer && !((EntityPlayer) event.getEntityLiving()).capabilities.isCreativeMode && ConfigurationHandler.quickPotionWearOff && event.getEntityLiving().dimension == ConfigurationHandler.dimensionId) {
 
             for (final PotionEffect effect : event.getEntityLiving().getActivePotionEffects()) {
 
