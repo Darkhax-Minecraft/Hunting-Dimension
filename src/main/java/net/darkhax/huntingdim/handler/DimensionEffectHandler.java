@@ -4,17 +4,23 @@ import java.util.UUID;
 
 import net.darkhax.bookshelf.data.AttributeOperation;
 import net.darkhax.bookshelf.util.MathsUtils;
+import net.darkhax.bookshelf.util.WorldUtils;
+import net.darkhax.huntingdim.HuntingDimension;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent.CheckSpawn;
 import net.minecraftforge.event.entity.living.LootingLevelEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class DimensionEffectHandler {
@@ -74,6 +80,27 @@ public class DimensionEffectHandler {
                     entity.heal(entity.getMaxHealth());
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onSpawnCheck (CheckSpawn event) {
+
+        // Mob spawners will override these conditions.
+        if (event.isSpawner()) {
+
+            return;
+        }
+
+        // Check if peaceful mobs should spawn in hostile world.
+        if (!ConfigurationHandler.allowPeacefulInHunting && event.getEntityLiving() instanceof EntityAnimal && WorldUtils.isDimension(event.getWorld(), HuntingDimension.dimensionType)) {
+
+            event.setResult(Result.DENY);
+        }
+
+        else if (!ConfigurationHandler.allowHostileInOverworld && event.getEntityLiving() instanceof IMob && WorldUtils.isDimension(event.getWorld(), DimensionType.OVERWORLD)) {
+
+            event.setResult(Result.DENY);
         }
     }
 
