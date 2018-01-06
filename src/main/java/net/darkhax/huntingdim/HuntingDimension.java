@@ -1,7 +1,5 @@
 package net.darkhax.huntingdim;
 
-import java.util.Calendar;
-
 import net.darkhax.bookshelf.lib.LoggingHelper;
 import net.darkhax.bookshelf.registry.RegistryHelper;
 import net.darkhax.bookshelf.util.OreDictUtils;
@@ -9,7 +7,6 @@ import net.darkhax.huntingdim.block.BlockHuntingFrame;
 import net.darkhax.huntingdim.block.BlockHuntingPortal;
 import net.darkhax.huntingdim.creativetab.CreativeTabHunting;
 import net.darkhax.huntingdim.dimension.WorldProviderHunting;
-import net.darkhax.huntingdim.dimension.events.EventXmas;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.darkhax.huntingdim.handler.DimensionEffectHandler;
 import net.darkhax.huntingdim.item.ItemBiomeChanger;
@@ -78,12 +75,6 @@ public class HuntingDimension {
     @EventHandler
     public void init (FMLInitializationEvent event) {
 
-        final Calendar calendar = Calendar.getInstance();
-
-        // If xmas time, initialize xmas stuff. 24th to 26th.
-        if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
-
-            new EventXmas();
-        }
+        // TODO events
     }
 }
