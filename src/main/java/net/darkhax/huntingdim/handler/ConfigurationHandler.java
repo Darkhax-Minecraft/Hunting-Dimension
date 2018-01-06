@@ -36,6 +36,8 @@ public class ConfigurationHandler {
     public static boolean allowHostileInOverworld = true;
     public static boolean allowPeacefulInHunting = false;
 
+    public static boolean allowRespawn = false;
+
     public ConfigurationHandler () {
 
         if (!directory.exists()) {
@@ -102,6 +104,8 @@ public class ConfigurationHandler {
 
         allowHostileInOverworld = config.getBoolean("mobsInSurface", Configuration.CATEGORY_GENERAL, true, "Should hostile mobs be allowed to spawn in the overworld?");
         allowPeacefulInHunting = config.getBoolean("allowPeacefulMobs", Configuration.CATEGORY_GENERAL, false, "Should peaceful mobs be allowed to spawn in the hunting dimension?");
+
+        allowRespawn = config.getBoolean("allowRespawn", Configuration.CATEGORY_GENERAL, false, "Should players respawn inside of the hunting dimension?");
 
         if (config.hasChanged()) {
 
