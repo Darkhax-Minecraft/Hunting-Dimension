@@ -1,6 +1,7 @@
 package net.darkhax.huntingdim.block;
 
 import net.darkhax.huntingdim.HuntingDimension;
+import net.darkhax.huntingdim.addon.tcon.TconUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -16,6 +17,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -46,7 +48,7 @@ public class BlockHuntingFrame extends Block {
         final ItemStack stack = playerIn.getHeldItem(hand);
         final Item item = stack.getItem();
 
-        if (item instanceof ItemSword || item instanceof ItemBow || item == Items.FLINT_AND_STEEL) {
+        if (item instanceof ItemSword || item instanceof ItemBow || item == Items.FLINT_AND_STEEL || Loader.isModLoaded("tconstruct") && TconUtils.isTconWeapon(item)) {
 
             ((BlockHuntingPortal) HuntingDimension.portal).trySpawnPortal(worldIn, pos.offset(facing));
             return true;
