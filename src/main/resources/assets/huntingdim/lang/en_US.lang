@@ -14,6 +14,7 @@ chat.huntingdim.changer.invalid.dim=This item can only change biomes in the hunt
 chat.huntingdim.changer.biome.exists=This biome is already the type you're trying to change it to.
 chat.huntingdim.changer.set.self=The biome of the moss has been set to %s.
 chat.huntingdim.changer.set.world=The biome of the chunk has been set to %s.
+chat.huntingdim.changer.set.invalid=Invalid biome selected. Please change the biome of the moss by sneak clicking.
 chat.huntingdim.teleporter.canceled=Another mod is preventing access to the hunting dimension.
 chat.huntingdim.teleporter.mounted=Mounted entities can not travel to the hunting dimension.
 chat.huntingdim.teleporter.invalid.player=You are an invalid entity, and can not travel through the portal!

@@ -57,6 +57,7 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
     public ActionResult<ItemStack> onItemRightClick (World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 
         final ItemStack stack = playerIn.getHeldItem(handIn);
+        final Biome stackBiome = getBiomeForStack(stack);
 
         // Player has set the biome of the moss
         if (playerIn.isSneaking()) {
@@ -74,11 +75,18 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
             return new ActionResult<>(EnumActionResult.FAIL, stack);
         }
 
+        // If stack biome is null, prevent it from being used until it can be reset.
+        if (stackBiome == null) {
+
+            Messages.CHANGER_INVALID_BIOME.sendMessage(playerIn);
+            return new ActionResult<>(EnumActionResult.FAIL, stack);
+        }
+
         // Not allowed to use if the biome is the existing biome.
         if (worldIn.getBiome(playerIn.getPosition()) == getBiomeForStack(playerIn.getHeldItem(handIn))) {
 
             Messages.CHANGER_BIOME_EXISTS.sendMessage(playerIn);
-            return new ActionResult<>(EnumActionResult.PASS, stack);
+            return new ActionResult<>(EnumActionResult.FAIL, stack);
         }
 
         WorldUtils.setBiomes(worldIn, playerIn.getPosition(), ItemBiomeChanger.getBiomeForStack(stack));

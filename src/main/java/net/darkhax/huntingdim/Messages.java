@@ -10,6 +10,7 @@ public enum Messages {
     CHANGER_BIOME_EXISTS("changer.biome.exists"),
     CHANGER_SET_SELF("changer.set.self"),
     CHANGER_SET_WORLD("changer.set.world"),
+    CHANGER_INVALID_BIOME("changer.set.invalid"),
     TELEPORTER_CANCELED("teleporter.canceled"),
     TELEPORTER_MOUNTED("teleporter.mounted"),
     TELEPORTER_INVALID_PLAYER("teleporter.invalid.player");
