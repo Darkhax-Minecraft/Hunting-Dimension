@@ -11,6 +11,7 @@ import net.darkhax.bookshelf.util.WorldUtils;
 import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.Messages;
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,6 +23,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.relauncher.Side;
@@ -35,9 +37,20 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation (ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 
-        tooltip.add(getBiomeForStack(stack).getBiomeName());
+        final Biome biome = getBiomeForStack(stack);
+
+        if (biome == null) {
+
+            tooltip.add(TextFormatting.RED + I18n.format("tooltip.huntingdim.biome.invalid") + getBiomeId(stack));
+        }
+
+        else {
+
+            tooltip.add(getBiomeForStack(stack).getBiomeName());
+        }
     }
 
     @Override
@@ -108,10 +121,15 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
         return stack;
     }
 
-    public static Biome getBiomeForStack (ItemStack stack) {
+    public static int getBiomeId (ItemStack stack) {
 
         final NBTTagCompound tag = StackUtils.prepareStackTag(stack);
-        return Biome.getBiome(tag.getInteger("HeldBiome"));
+        return tag.getInteger("HeldBiome");
+    }
+
+    public static Biome getBiomeForStack (ItemStack stack) {
+
+        return Biome.getBiome(getBiomeId(stack));
     }
 
     @SideOnly(Side.CLIENT)
