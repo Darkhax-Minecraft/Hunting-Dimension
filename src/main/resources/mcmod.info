@@ -5,7 +5,7 @@
       "description":"A dimension with lots of mobs! Watch out!!!",
       "version":"${version}",
       "mcversion":"${mcversion}",
-      "logoFile": "logo.png",
+      "logoFile": "",
       "url":"http://www.darkhax.net",
       "updateUrl":"",
       "authorList":[  

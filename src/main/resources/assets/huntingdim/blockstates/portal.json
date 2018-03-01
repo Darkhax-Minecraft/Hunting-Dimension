@@ -1,10 +1,1 @@
-{
-	"variants": {
-		"axis=z": {
-			"model": "huntingdim:portal_ew"
-		},
-		"axis=x": {
-			"model": "huntingdim:portal_ns"
-		}
-	}
-}
+{"variants":{"axis\u003dz":{"model":"huntingdim:portal_ew"},"axis\u003dx":{"model":"huntingdim:portal_ns"}}}

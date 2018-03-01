@@ -1,8 +1,1 @@
-{
-	"parent": "bookshelf:block/layered",
-	"textures": {
-		"texture": "blocks/log_oak",
-		"overlay": "huntingdim:blocks/frame",
-	    "particle": "blocks/log_oak"
-	}
-}
+{"parent":"bookshelf:block/layered","textures":{"texture":"blocks/log_oak","overlay":"huntingdim:blocks/frame","particle":"blocks/log_oak"}}

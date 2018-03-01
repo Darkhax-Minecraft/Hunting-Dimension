@@ -1,7 +1,1 @@
-{
-	"variants": {
-		"normal": {
-			"model": "huntingdim:frame"
-		}
-	}
-}
+{"variants":{"normal":{"model":"huntingdim:frame"}}}
