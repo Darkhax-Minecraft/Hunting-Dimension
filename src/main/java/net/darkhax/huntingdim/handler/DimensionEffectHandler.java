@@ -131,7 +131,7 @@ public class DimensionEffectHandler {
                 if (PotionUtils.isBeneficial(effect.getPotion())) {
 
                     // Lower the duration by a second tick.
-                    effect.deincrementDuration();
+                    PotionUtils.deincrementDuration(effect);
                 }
             }
         }

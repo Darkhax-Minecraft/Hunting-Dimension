@@ -1,5 +1,6 @@
 package net.darkhax.huntingdim.dimension;
 
+import net.darkhax.bookshelf.util.WorldUtils;
 import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.minecraft.init.Biomes;
@@ -29,14 +30,14 @@ public class WorldProviderHunting extends WorldProvider {
 
                 if (ConfigurationHandler.worldType.equalsIgnoreCase(type.getName())) {
 
-                    this.terrainType = type;
+                    WorldUtils.setWorldType(this, type);
                     break;
                 }
             }
         }
 
         // Override generator settings
-        this.generatorSettings = ConfigurationHandler.generatorPreset;
+        WorldUtils.setWorldSettings(this, ConfigurationHandler.generatorPreset);
     }
 
     @Override
