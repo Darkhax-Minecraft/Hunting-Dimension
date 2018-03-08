@@ -5,7 +5,6 @@ import java.util.Random;
 import com.google.common.cache.LoadingCache;
 
 import net.darkhax.bookshelf.lib.Constants;
-import net.darkhax.bookshelf.util.PlayerUtils;
 import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.Messages;
 import net.darkhax.huntingdim.dimension.TeleporterHunting;
@@ -112,7 +111,7 @@ public class BlockHuntingPortal extends BlockPortal {
         }
 
         // Only allow real players to teleport.
-        if (PlayerUtils.isPlayerReal(entityIn)) {
+        if (entityIn instanceof EntityPlayerMP) {
 
             final EntityPlayerMP player = (EntityPlayerMP) entityIn;
 
