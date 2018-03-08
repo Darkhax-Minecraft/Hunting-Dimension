@@ -21,7 +21,6 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = "huntingdim", name = "Hunting Dimension", version = "@VERSION@", dependencies = "required-after:bookshelf@[2.3.533,)", certificateFingerprint = "@FINGERPRINT@")
@@ -69,12 +68,8 @@ public class HuntingDimension {
         REGISTRY.addShapedRecipe("moss_special_swamp_brown", ItemBiomeChanger.setBiome(stackMoss.copy(), Biomes.SWAMPLAND), "xxx", "xyx", "xxx", 'x', Blocks.BROWN_MUSHROOM, 'y', moss);
         REGISTRY.addShapedRecipe("moss_special_mesa", ItemBiomeChanger.setBiome(stackMoss.copy(), Biomes.MESA), "xxx", "xyx", "xxx", 'x', Blocks.HARDENED_CLAY, 'y', moss);
         REGISTRY.addShapedRecipe("moss_special_mesa_stained", ItemBiomeChanger.setBiome(stackMoss.copy(), Biomes.MESA), "xxx", "xyx", "xxx", 'x', Blocks.STAINED_HARDENED_CLAY, 'y', moss);
+
+        // Dimension specific events
         MinecraftForge.EVENT_BUS.register(new DimensionEffectHandler());
-    }
-
-    @EventHandler
-    public void init (FMLInitializationEvent event) {
-
-        // TODO events
     }
 }
