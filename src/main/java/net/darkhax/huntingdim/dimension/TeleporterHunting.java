@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -11,6 +12,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class TeleporterHunting extends Teleporter {
 
@@ -28,6 +30,9 @@ public class TeleporterHunting extends Teleporter {
 
     @Override
     public void placeInPortal (Entity entity, float rotationYaw) {
+
+        if (entityIn instanceof EntityPlayerMP && !((EntityPlayerMP)entityIn).capabilities.isCreativeMode)
+				ReflectionHelper.setPrivateValue(EntityPlayerMP.class, (EntityPlayerMP)entityIn, true, "invulnerableDimensionChange", "field_184851_cj");
 
         // If a portal doesn't exist, make a new one.
         if (!this.placeInExistingPortal(entity, rotationYaw)) {
