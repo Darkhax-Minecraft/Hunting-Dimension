@@ -33,7 +33,7 @@ public class TeleporterHunting extends Teleporter {
 
         if (entityIn instanceof EntityPlayerMP && !((EntityPlayerMP)entityIn).capabilities.isCreativeMode)
 				ReflectionHelper.setPrivateValue(EntityPlayerMP.class, (EntityPlayerMP)entityIn, true, "invulnerableDimensionChange", "field_184851_cj");
-        
+
         // If a portal doesn't exist, make a new one.
         if (!this.placeInExistingPortal(entity, rotationYaw)) {
 
