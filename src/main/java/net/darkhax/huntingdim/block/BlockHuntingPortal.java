@@ -1,5 +1,8 @@
 package net.darkhax.huntingdim.block;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Random;
 
 import com.google.common.cache.LoadingCache;
@@ -19,6 +22,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
@@ -29,13 +35,16 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome.SpawnListEntry;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockHuntingPortal extends BlockPortal {
-
-    public static SoundEvent[] sounds = { SoundEvents.ENTITY_ZOMBIE_AMBIENT, SoundEvents.ENTITY_SKELETON_AMBIENT, SoundEvents.ENTITY_SPIDER_AMBIENT, SoundEvents.ENTITY_ENDERMEN_AMBIENT };
-
+    
+    private final Method playSound = ReflectionHelper.findMethod(EntityLiving.class, "getAmbientSound", "func_184639_G");
+    
     public BlockHuntingPortal () {
 
         super();
@@ -155,13 +164,61 @@ public class BlockHuntingPortal extends BlockPortal {
         }
     }
 
+    private EntityLiving getMobForChunk(World world, BlockPos pos) {
+        
+        final Biome biome = world.getBiome(pos);
+        
+        if (biome != null) {
+            
+            final List<SpawnListEntry> validMobs = biome.getSpawnableList(EnumCreatureType.MONSTER);
+            
+            if (validMobs != null && !validMobs.isEmpty()) {
+                
+                final SpawnListEntry entry = validMobs.get(Constants.RANDOM.nextInt(validMobs.size()));
+                
+                if (entry != null) {
+                    
+                    try {
+                        
+                        final Entity entity = entry.newInstance(world);
+                        
+                        if (entity instanceof EntityLiving) {
+                            
+                            return (EntityLiving) entity;
+                        }
+                    }
+                    
+                    catch (Exception e) {
+  
+                    }
+                }
+            }
+        }
+        
+        return null;
+    }
+    
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick (IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 
         if (rand.nextInt(100) == 0) {
 
-            worldIn.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, sounds[Constants.RANDOM.nextInt(sounds.length)], SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F, false);
+            final EntityLiving living = this.getMobForChunk(worldIn, pos);
+            
+            if (living != null) {
+                
+                try {
+                    
+                    worldIn.playSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, (SoundEvent) playSound.invoke(living), SoundCategory.BLOCKS, 0.5F, rand.nextFloat() * 0.4F + 0.8F, false);
+                }
+                
+                catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                    
+                }
+                
+                living.setDead();
+            }
         }
 
         for (int i = 0; i < 4; ++i) {
