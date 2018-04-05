@@ -56,7 +56,7 @@ public class BlockHuntingPortal extends BlockPortal {
     @Override
     public void updateTick (World worldIn, BlockPos pos, IBlockState state, Random rand) {
 
-        if (worldIn.getGameRules().getBoolean("doMobSpawning") && rand.nextInt(2000) < worldIn.getDifficulty().getDifficultyId()) {
+        if (worldIn.getGameRules().getBoolean("doMobSpawning") && rand.nextInt(ConfigurationHandler.chanceSpawn) < worldIn.getDifficulty().getDifficultyId()) {
 
             BlockPos blockpos;
 
@@ -224,7 +224,7 @@ public class BlockHuntingPortal extends BlockPortal {
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick (IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 
-        if (rand.nextInt(100) == 0) {
+        if (rand.nextInt(ConfigurationHandler.chanceSound) == 0) {
 
             final EntityLiving living = this.getMobForChunk(worldIn, pos);
 

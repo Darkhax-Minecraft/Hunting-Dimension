@@ -37,6 +37,9 @@ public class ConfigurationHandler {
     public static boolean allowPeacefulInHunting = false;
 
     public static boolean allowRespawn = false;
+    
+    public static int chanceSound = 100;
+    public static int chanceSpawn = 2000;
 
     public ConfigurationHandler () {
 
@@ -107,6 +110,9 @@ public class ConfigurationHandler {
 
         allowRespawn = config.getBoolean("allowRespawn", Configuration.CATEGORY_GENERAL, false, "Should players respawn inside of the hunting dimension?");
 
+        chanceSound = config.getInt("chanceSound", Configuration.CATEGORY_GENERAL, 100, 0, 10000, "The chance that the portal will play a sound. Default is a 1 in 100 chance.");
+        chanceSpawn = config.getInt("chanceSpawn", Configuration.CATEGORY_GENERAL, 2000, 0, 10000, "The chance that the portal will spawn a mob. Peaceful, easy, normal and hard have a 0, 1, 2, and 3 in X chance of spawning a mob, where X is the configured value.");
+        
         if (config.hasChanged()) {
 
             HuntingDimension.LOG.info("Saving config file.");
