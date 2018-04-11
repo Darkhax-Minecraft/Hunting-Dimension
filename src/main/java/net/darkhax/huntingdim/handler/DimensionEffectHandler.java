@@ -127,8 +127,8 @@ public class DimensionEffectHandler {
 
             for (final PotionEffect effect : event.getEntityLiving().getActivePotionEffects()) {
 
-                // If the effect is positive
-                if (PotionUtils.isBeneficial(effect.getPotion())) {
+                // If the effect is positive and not ambient (beacons)
+                if (PotionUtils.isBeneficial(effect.getPotion()) && !effect.getIsAmbient()) {
 
                     // Lower the duration by a second tick.
                     PotionUtils.deincrementDuration(effect);
