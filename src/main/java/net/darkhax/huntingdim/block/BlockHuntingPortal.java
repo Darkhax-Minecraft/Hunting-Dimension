@@ -8,6 +8,7 @@ import java.util.Random;
 import com.google.common.cache.LoadingCache;
 
 import net.darkhax.bookshelf.lib.Constants;
+import net.darkhax.bookshelf.util.WorldUtils;
 import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.Messages;
 import net.darkhax.huntingdim.dimension.TeleporterHunting;
@@ -27,6 +28,8 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -160,6 +163,13 @@ public class BlockHuntingPortal extends BlockPortal {
 
                 // Stop the player from sneaking, so they don't get sent back.
                 player.setSneaking(false);
+
+                // If player is going into the hunting dimension
+                if (!WorldUtils.isDimension(player.getEntityWorld(), HuntingDimension.dimensionType)) {
+
+                    // Give player 5 seconds of resistance when entering the portal.
+                    player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 100, 4, true, false));
+                }
 
                 // Teleport the player using custom teleporter.
                 player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.mcServer.getWorld(dimension), HuntingDimension.frame.getDefaultState(), this.getDefaultState()));
