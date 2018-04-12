@@ -30,6 +30,7 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.Tuple;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
@@ -82,9 +83,9 @@ public class BlockHuntingFrame extends BlockTileEntity {
     @Override
     public void getSubBlocks (CreativeTabs tab, NonNullList<ItemStack> items) {
 
-        for (final ItemStack wood : StackUtils.getAllBlocksForOredict(OreDictUtils.LOG_WOOD)) {
+        for (final Tuple<ItemStack, ItemStack> variant : HuntingDimension.frameVariants) {
 
-            items.add(createFrameVariant(wood));
+            items.add(variant.getSecond());
         }
     }
 

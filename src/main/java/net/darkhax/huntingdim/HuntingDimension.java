@@ -1,5 +1,8 @@
 package net.darkhax.huntingdim;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.darkhax.bookshelf.lib.LoggingHelper;
 import net.darkhax.bookshelf.registry.RegistryHelper;
 import net.darkhax.bookshelf.util.OreDictUtils;
@@ -14,6 +17,7 @@ import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.darkhax.huntingdim.handler.DimensionEffectHandler;
 import net.darkhax.huntingdim.item.ItemBiomeChanger;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Biomes;
@@ -22,7 +26,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.IModel;
@@ -89,12 +96,41 @@ public class HuntingDimension {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    public static final List<Tuple<ItemStack, ItemStack>> frameVariants = new ArrayList<>();
+    
     @SubscribeEvent
     public void registerRecipes (RegistryEvent.Register<IRecipe> event) {
 
-        for (final ItemStack logStack : StackUtils.getAllBlocksForOredict(OreDictUtils.LOG_WOOD)) {
+        // Populate frameVariants if it has not already been done.
+        if (frameVariants.isEmpty()) {
+            
+            for (final ItemStack logStack : StackUtils.getAllBlocksForOredict(OreDictUtils.LOG_WOOD)) {
 
-            final ItemStack output = BlockHuntingFrame.createFrameVariant(logStack);
+                if (logStack.getItem() instanceof ItemBlock) {
+                    
+                    try {
+                        
+                        Block block = ((ItemBlock) logStack.getItem()).getBlock();
+                        IBlockState state = block.getStateForPlacement(null, null, EnumFacing.DOWN, 0f, 0f, 0f, logStack.getMetadata(), null, EnumHand.MAIN_HAND);
+                        
+                        if (state.isFullCube()) {
+                            
+                            frameVariants.add(new Tuple<>(logStack, BlockHuntingFrame.createFrameVariant(logStack)));
+                        }
+                    }
+                    
+                    catch (Exception e) {
+                        
+                        LOG.catching(e);
+                    }
+                }
+            }
+        }
+        
+        for (Tuple<ItemStack, ItemStack> variant : frameVariants) {
+            
+            final ItemStack output = variant.getSecond().copy();
+            final ItemStack logStack = variant.getFirst();
             output.setCount(4);
 
             final ShapedOreRecipe recipe = new ShapedOreRecipe(null, output, "xxx", "xax", "xxx", 'x', logStack, 'a', OreDictUtils.ARROW);
