@@ -117,10 +117,9 @@ public class BlockHuntingFrame extends BlockTileEntity {
         if (item instanceof ItemSword || item instanceof ItemBow || item == Items.FLINT_AND_STEEL || Loader.isModLoaded("tconstruct") && TconUtils.isTconWeapon(item)) {
 
             ((BlockHuntingPortal) HuntingDimension.portal).trySpawnPortal(worldIn, pos.offset(facing));
-            return true;
         }
 
-        return false;
+        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }
 
     @Override
