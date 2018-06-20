@@ -38,6 +38,7 @@ public class WorldProviderHunting extends WorldProvider {
 
         // Override generator settings
         WorldUtils.setWorldSettings(this, ConfigurationHandler.generatorPreset);
+        this.hasSkyLight = true;
     }
 
     @Override
@@ -86,5 +87,15 @@ public class WorldProviderHunting extends WorldProvider {
     public long getWorldTime () {
 
         return MIDNIGHT;
+    }
+    
+    @Override
+    public float getSunBrightness(float par1) {
+        return 0;
+    }
+
+    @Override
+    public float getSunBrightnessFactor(float par1) {
+        return 0;
     }
 }
