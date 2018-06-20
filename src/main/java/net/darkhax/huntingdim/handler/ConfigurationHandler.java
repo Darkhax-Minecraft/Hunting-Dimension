@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.FileUtils;
 
 import net.darkhax.huntingdim.HuntingDimension;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.config.Configuration;
 
 public class ConfigurationHandler {
@@ -40,6 +41,8 @@ public class ConfigurationHandler {
 
     public static int chanceSound = 100;
     public static int chanceSpawn = 2000;
+    
+    public static Vec3d fogColor = new Vec3d(0.029999999329447746D, 0.20000000298023224D, 0.029999999329447746D);
 
     public ConfigurationHandler () {
 
@@ -113,10 +116,20 @@ public class ConfigurationHandler {
         chanceSound = config.getInt("chanceSound", Configuration.CATEGORY_GENERAL, 100, 0, 10000, "The chance that the portal will play a sound. Default is a 1 in 100 chance.");
         chanceSpawn = config.getInt("chanceSpawn", Configuration.CATEGORY_GENERAL, 2000, 0, 10000, "The chance that the portal will spawn a mob. Peaceful, easy, normal and hard have a 0, 1, 2, and 3 in X chance of spawning a mob, where X is the configured value.");
 
+        fogColor = getVec3d("fogColor", "fogcolor", new Vec3d(0.02999D, 0.20000D, 0.02999D));
+        
         if (config.hasChanged()) {
 
             HuntingDimension.LOG.info("Saving config file.");
             config.save();
         }
+    }
+    
+    private Vec3d getVec3d(String type, String category, Vec3d initial) {
+        
+        final float red = config.getFloat(type + "Red", category, (float) initial.x, 0f, 1f, "The red color value for " + type);
+        final float green = config.getFloat(type + "Green", category, (float) initial.y, 0f, 1f, "The green color value for " + type);
+        final float blue = config.getFloat(type + "Blue", category, (float) initial.z, 0f, 1f, "The blue color value for " + type);
+        return new Vec3d(red, green, blue);
     }
 }

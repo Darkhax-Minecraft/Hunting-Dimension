@@ -18,7 +18,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class WorldProviderHunting extends WorldProvider {
 
     private static final long MIDNIGHT = 18000;
-    private static final Vec3d FOG_COLOR = new Vec3d(0.029999999329447746D, 0.20000000298023224D, 0.029999999329447746D);
 
     @Override
     protected void init () {
@@ -107,6 +106,6 @@ public class WorldProviderHunting extends WorldProvider {
     @SideOnly(Side.CLIENT)
     public Vec3d getFogColor(float p_76562_1_, float p_76562_2_) {
         
-        return FOG_COLOR;
+        return ConfigurationHandler.fogColor;
     }
 }
