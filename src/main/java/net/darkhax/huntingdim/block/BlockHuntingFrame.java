@@ -9,6 +9,8 @@ import net.darkhax.bookshelf.util.OreDictUtils;
 import net.darkhax.bookshelf.util.StackUtils;
 import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.addon.tcon.TconUtils;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -114,7 +116,7 @@ public class BlockHuntingFrame extends BlockTileEntity {
         final ItemStack stack = playerIn.getHeldItem(hand);
         final Item item = stack.getItem();
 
-        if (item instanceof ItemSword || item instanceof ItemBow || item == Items.FLINT_AND_STEEL || Loader.isModLoaded("tconstruct") && TconUtils.isTconWeapon(item)) {
+        if (item instanceof ItemSword || item instanceof ItemBow || Loader.isModLoaded("tconstruct") && TconUtils.isTconWeapon(item)) {
 
             ((BlockHuntingPortal) HuntingDimension.portal).trySpawnPortal(worldIn, pos.offset(facing));
         }
@@ -122,6 +124,15 @@ public class BlockHuntingFrame extends BlockTileEntity {
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
     }
 
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        
+        if (worldIn.getBlockState(fromPos).getBlock() instanceof BlockFire) {
+            
+            ((BlockHuntingPortal) HuntingDimension.portal).trySpawnPortal(worldIn, fromPos);
+        }
+    }
+    
     @Override
     public TileEntity createNewTileEntity (World worldIn, int meta) {
 
