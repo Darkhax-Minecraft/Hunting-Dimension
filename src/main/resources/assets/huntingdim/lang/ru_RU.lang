@@ -1,0 +1,25 @@
+#Block Names (Translated by TimeConqueror)
+tile.huntingdim.frame.name=Рамка портала Измерения охоты
+tile.huntingdim.portal.name=Портал Измерения охоты
+
+#Item Names
+item.huntingdim.biome.changer.name=Ползучий мох
+
+#Misc
+itemGroup.huntingdim=Hunting Dimension
+tooltip.huntingdim.biome.invalid=Недопустимый биом! Не найден биом для этого id
+
+#Chat Messages
+chat.huntingdim.changer.invalid.dim=Этот предмет может менять биомы только в Измерении охоты.
+chat.huntingdim.changer.biome.exists=Этот биом уже имеет тот тип, на который Вы пытаетесь его поменять.
+chat.huntingdim.changer.set.self=Биом ползучего мха был изменён на %s.
+chat.huntingdim.changer.set.world=Биом чанка был изменён на %s.
+chat.huntingdim.changer.set.invalid=Выбран недопустимый биом. Просьба изменить биом мха, нажав Shift.
+chat.huntingdim.teleporter.canceled=Другой мод препятствует получению доступа в Измерение охоты.
+chat.huntingdim.teleporter.mounted=Осёдланные существа не могут отправиться в Измерение охоты.
+chat.huntingdim.teleporter.invalid.player=Вы являетесь недопустимой сущностью и не можете пройти сквозь портал!
+
+#JEI Descriptions
+jei.tile.huntingdim.frame=Рамка, которая нужна для создания портала в Измерение охоты. Конструкция и форма портала должна быть такой же, как у портала в Незер. Активируется по нажатию ПКМ с мечом, луком или огнивом в руке. Чтобы пройти сквозь портал, Вам необходимо нажать Shift.
+jei.tile.huntingdim.portal=Портал в Измерение охоты. Чтобы пройти сквозь него, Вам необходимо нажать Shift.
+jei.item.huntingdim.biome.changer=Этот мох позволяет изменить биом чанка в измерении охоты. Нажав мхом Shift + ПКМ, Вы измените тип биома мха на тот биом, в котором на данным момент находитесь. Нажав мхом ПКМ и будучи в измерении охоты, Вы измените биом текущего чанка на тот, что изображён на мхе. Будет работать ТОЛЬКО в измерении охоты.
