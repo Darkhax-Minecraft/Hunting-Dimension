@@ -156,7 +156,7 @@ public class BlockHuntingPortal extends BlockPortal {
             }
 
             // If the player is in our dim already, send them to the overworld.
-            final int dimension = player.dimension == ConfigurationHandler.dimensionId ? DimensionType.OVERWORLD.getId() : ConfigurationHandler.dimensionId;
+            final int dimension = player.dimension == ConfigurationHandler.dimensionId ? 0 : ConfigurationHandler.dimensionId;
 
             // Fire Forge's hooks and events.
             if (EntityTravelToDimensionEventWrapped.onTravelToDimension(player, dimension)) {
