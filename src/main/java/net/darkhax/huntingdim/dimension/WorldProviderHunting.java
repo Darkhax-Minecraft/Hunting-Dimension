@@ -63,15 +63,9 @@ public class WorldProviderHunting extends WorldProvider {
     }
 
     @Override
-    public boolean isSurfaceWorld () {
-
-        return false;
-    }
-
-    @Override
     public float calculateCelestialAngle (long worldTime, float partialTicks) {
 
-        return 0f;
+        return 0.5f;
     }
 
     @Override
