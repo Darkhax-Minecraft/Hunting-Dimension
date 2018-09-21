@@ -3,12 +3,16 @@ package net.darkhax.huntingdim.block;
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import net.darkhax.bookshelf.block.BlockTileEntity;
+import net.darkhax.bookshelf.block.IColorfulBlock;
 import net.darkhax.bookshelf.block.property.PropertyObject;
 import net.darkhax.bookshelf.util.OreDictUtils;
 import net.darkhax.bookshelf.util.StackUtils;
 import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.addon.tcon.TconUtils;
+import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.SoundType;
@@ -16,6 +20,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,7 +50,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockHuntingFrame extends BlockTileEntity {
+public class BlockHuntingFrame extends BlockTileEntity implements IColorfulBlock {
 
     public static final PropertyObject<ItemStack> BASE_BLOCK = new PropertyObject<>("base_block", ItemStack.class);
 
@@ -209,5 +214,11 @@ public class BlockHuntingFrame extends BlockTileEntity {
         }
 
         return stack;
+    }
+
+    @Override
+    public IBlockColor getColorHandler () {
+        
+        return (state, world, pos, index) -> ConfigurationHandler.defaultColorPacked;
     }
 }

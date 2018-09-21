@@ -100,6 +100,6 @@ public class WorldProviderHunting extends WorldProvider {
     @SideOnly(Side.CLIENT)
     public Vec3d getFogColor(float p_76562_1_, float p_76562_2_) {
         
-        return ConfigurationHandler.fogColor;
+        return ConfigurationHandler.defaultColorVector;
     }
 }

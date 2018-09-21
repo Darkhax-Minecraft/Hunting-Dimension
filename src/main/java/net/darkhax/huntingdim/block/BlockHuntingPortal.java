@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.google.common.cache.LoadingCache;
 
+import net.darkhax.bookshelf.block.IColorfulBlock;
 import net.darkhax.bookshelf.lib.Constants;
 import net.darkhax.bookshelf.util.WorldUtils;
 import net.darkhax.huntingdim.HuntingDimension;
@@ -21,6 +22,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
+import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -44,7 +46,7 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockHuntingPortal extends BlockPortal {
+public class BlockHuntingPortal extends BlockPortal implements IColorfulBlock {
 
     private final Method playSound = ReflectionHelper.findMethod(EntityLiving.class, "getAmbientSound", "func_184639_G");
 
@@ -264,7 +266,7 @@ public class BlockHuntingPortal extends BlockPortal {
             final double y = pos.getY() + rand.nextFloat();
             final double z = pos.getZ() + rand.nextFloat();
 
-            worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB, x, y, z, 0f, 1f, 0f);
+            worldIn.spawnParticle(EnumParticleTypes.SPELL_MOB, x, y, z, ConfigurationHandler.defaultColorVector.x, ConfigurationHandler.defaultColorVector.y, ConfigurationHandler.defaultColorVector.z);
         }
     }
 
@@ -462,5 +464,11 @@ public class BlockHuntingPortal extends BlockPortal {
                 }
             }
         }
+    }
+    
+    @Override
+    public IBlockColor getColorHandler () {
+        
+        return (state, world, pos, index) -> ConfigurationHandler.defaultColorPacked;
     }
 }
