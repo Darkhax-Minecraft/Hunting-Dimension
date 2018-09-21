@@ -44,6 +44,8 @@ public class ConfigurationHandler {
     
     public static Vec3d fogColor = new Vec3d(0.029999999329447746D, 0.20000000298023224D, 0.029999999329447746D);
 
+    public static int returnDimension = 0;
+    
     public ConfigurationHandler () {
 
         if (!directory.exists()) {
@@ -117,6 +119,8 @@ public class ConfigurationHandler {
         chanceSpawn = config.getInt("chanceSpawn", Configuration.CATEGORY_GENERAL, 2000, 0, 10000, "The chance that the portal will spawn a mob. Peaceful, easy, normal and hard have a 0, 1, 2, and 3 in X chance of spawning a mob, where X is the configured value.");
 
         fogColor = getVec3d("fogColor", "fogcolor", new Vec3d(0.02999D, 0.20000D, 0.02999D));
+        
+        returnDimension = config.getInt("returnDimension", Configuration.CATEGORY_GENERAL, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, "The dimension to go to when you return from the hunting dimension.");
         
         if (config.hasChanged()) {
 
