@@ -16,6 +16,7 @@ import net.darkhax.huntingdim.dimension.WorldProviderHunting;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.darkhax.huntingdim.handler.DimensionEffectHandler;
 import net.darkhax.huntingdim.item.ItemBiomeChanger;
+import net.darkhax.huntingdim.item.ItemBlockColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.IBakedModel;
@@ -67,10 +68,11 @@ public class HuntingDimension {
         DimensionManager.registerDimension(ConfigurationHandler.dimensionId, dimensionType);
 
         frame = new BlockHuntingFrame();
-        frameItem = new ItemBlock(frame);
+        frameItem = new ItemBlockColor(frame);
         REGISTRY.registerBlock(frame, frameItem, "frame");
         GameRegistry.registerTileEntity(TileEntityFrame.class, "huntingdim:frame");
-        portal = REGISTRY.registerBlock(new BlockHuntingPortal(), "portal");
+        portal = new BlockHuntingPortal();
+        REGISTRY.registerBlock(portal, new ItemBlockColor(portal), "portal");
         moss = REGISTRY.registerItem(new ItemBiomeChanger(), "biome_changer");
 
         // Basic moss recipes
