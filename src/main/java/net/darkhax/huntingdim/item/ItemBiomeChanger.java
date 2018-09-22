@@ -91,7 +91,7 @@ public class ItemBiomeChanger extends Item implements IColorfulItem {
 
         WorldUtils.setBiomes(worldIn, playerIn.getPosition(), ItemBiomeChanger.getBiomeForStack(stack));
         stack.shrink(1);
-        Messages.CHANGER_SET_WORLD.sendMessage(playerIn, getBiomeForStack(stack).getRegistryName());
+        Messages.CHANGER_SET_WORLD.sendMessage(playerIn, stackBiome.getRegistryName());
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
     }
 
