@@ -50,6 +50,8 @@ public class ConfigurationHandler {
 
     public static int returnDimension = 0;
     
+    public static boolean isVoidWorld = false;
+    
     public ConfigurationHandler () {
 
         if (!directory.exists()) {
@@ -128,6 +130,7 @@ public class ConfigurationHandler {
         defaultColorPacked = defaultColor.getRGB();
         defaultColorVector = new Vec3d(defaultColor.getRedF(), defaultColor.getGreenF(), defaultColor.getBlueF());
 
+        isVoidWorld = config.getBoolean("useVoidWorld", Configuration.CATEGORY_GENERAL, false, "Whether or not the hunting dimension should be an empty void world.");
         if (config.hasChanged()) {
 
             HuntingDimension.LOG.info("Saving config file.");

@@ -11,6 +11,7 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProviderSingle;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,6 +20,12 @@ public class WorldProviderHunting extends WorldProvider {
 
     private static final long MIDNIGHT = 18000;
 
+    @Override
+    public IChunkGenerator createChunkGenerator() {
+        
+        return ConfigurationHandler.isVoidWorld ? new ChunkGeneratorVoid(this.world) : super.createChunkGenerator();
+    }
+    
     @Override
     protected void init () {
 
