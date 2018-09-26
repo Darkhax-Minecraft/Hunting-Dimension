@@ -1,5 +1,7 @@
 package net.darkhax.huntingdim.dimension;
 
+import javax.annotation.Nullable;
+
 import net.darkhax.bookshelf.util.WorldUtils;
 import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
@@ -82,18 +84,6 @@ public class WorldProviderHunting extends WorldProvider {
     }
 
     @Override
-    public void setWorldTime (long time) {
-
-        this.world.getWorldInfo().setWorldTime(MIDNIGHT);
-    }
-
-    @Override
-    public long getWorldTime () {
-
-        return MIDNIGHT;
-    }
-
-    @Override
     public float getSunBrightness (float par1) {
 
         return 0;
@@ -110,5 +100,19 @@ public class WorldProviderHunting extends WorldProvider {
     public Vec3d getFogColor (float p_76562_1_, float p_76562_2_) {
 
         return ConfigurationHandler.defaultColorVector;
+    }
+    
+    @Override
+    public boolean isSurfaceWorld() {
+        
+        return false;
+    }
+    
+    @Nullable
+    @SideOnly(Side.CLIENT)
+    @Override
+    public net.minecraftforge.client.IRenderHandler getSkyRenderer() {
+        
+        return RenderHuntingSky.INSTANCE;
     }
 }
