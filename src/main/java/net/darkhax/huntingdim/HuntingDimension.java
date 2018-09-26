@@ -48,7 +48,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
-@Mod(modid = "huntingdim", name = "Hunting Dimension", version = "@VERSION@", dependencies = "required-after:bookshelf@[2.3.541,)", certificateFingerprint = "@FINGERPRINT@")
+@Mod(modid = "huntingdim", name = "Hunting Dimension", version = "@VERSION@", dependencies = "required-after:bookshelf@[2.3.561,)", certificateFingerprint = "@FINGERPRINT@")
 public class HuntingDimension {
 
     public static DimensionType dimensionType;
