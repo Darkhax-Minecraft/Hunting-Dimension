@@ -60,7 +60,7 @@ public class BlockHuntingPortal extends BlockPortal implements IColorfulBlock {
     @Override
     public void updateTick (World worldIn, BlockPos pos, IBlockState state, Random rand) {
 
-        if (worldIn.getGameRules().getBoolean("doMobSpawning") && ConfigurationHandler.chanceSpawn > 0 && rand.nextInt(ConfigurationHandler.chanceSpawn) < worldIn.getDifficulty().getDifficultyId()) {
+        if (worldIn.getGameRules().getBoolean("doMobSpawning") && ConfigurationHandler.chanceSpawn > 0 && rand.nextInt(ConfigurationHandler.chanceSpawn) < worldIn.getDifficulty().getId()) {
 
             BlockPos blockpos;
 
@@ -137,7 +137,7 @@ public class BlockHuntingPortal extends BlockPortal implements IColorfulBlock {
     }
 
     @Override
-    public void onEntityCollidedWithBlock (World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+    public void onEntityCollision (World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 
         // Ignore client side players, and players who are not sneaking.
         if (worldIn.isRemote || !entityIn.isSneaking()) {
@@ -173,7 +173,7 @@ public class BlockHuntingPortal extends BlockPortal implements IColorfulBlock {
                 }
 
                 // Teleport the player using custom teleporter.
-                player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.mcServer.getWorld(dimension), HuntingDimension.frame.getDefaultState(), this.getDefaultState()));
+                player.server.getPlayerList().transferPlayerToDimension(player, dimension, new TeleporterHunting(player.server.getWorld(dimension), HuntingDimension.frame.getDefaultState(), this.getDefaultState()));
             }
 
             // Event was canceled

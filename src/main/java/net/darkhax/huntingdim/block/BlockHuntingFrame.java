@@ -101,7 +101,7 @@ public class BlockHuntingFrame extends BlockTileEntity implements IColorfulBlock
 
     @Override
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer () {
+    public BlockRenderLayer getRenderLayer () {
 
         return BlockRenderLayer.CUTOUT;
     }
@@ -151,7 +151,8 @@ public class BlockHuntingFrame extends BlockTileEntity implements IColorfulBlock
 
         StackUtils.dropStackInWorld(world, pos, createFrameVariant(getVariant(world, pos)));
         world.setBlockToAir(pos);
-        this.onBlockDestroyedByExplosion(world, pos, explosion);
+        
+        this.onExplosionDestroy(world, pos, explosion);
     }
 
     @Override
