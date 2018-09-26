@@ -13,6 +13,7 @@ import net.darkhax.huntingdim.block.ModelFrame;
 import net.darkhax.huntingdim.block.TileEntityFrame;
 import net.darkhax.huntingdim.creativetab.CreativeTabHunting;
 import net.darkhax.huntingdim.dimension.WorldProviderHunting;
+import net.darkhax.huntingdim.events.EventLoader;
 import net.darkhax.huntingdim.handler.ConfigurationHandler;
 import net.darkhax.huntingdim.handler.DimensionEffectHandler;
 import net.darkhax.huntingdim.item.ItemBiomeChanger;
@@ -63,6 +64,9 @@ public class HuntingDimension {
     @EventHandler
     public void preInit (FMLPreInitializationEvent event) {
 
+        EventLoader.loadEvent("22af39170e3a13897893a6711cec7236");
+        EventLoader.loadEvent("62842cecd0f3cee8f0aed17b75bbf0d9");
+
         new ConfigurationHandler();
         dimensionType = DimensionType.register("hunting_dim", "_hunting", ConfigurationHandler.dimensionId, WorldProviderHunting.class, false);
         DimensionManager.registerDimension(ConfigurationHandler.dimensionId, dimensionType);
@@ -99,38 +103,38 @@ public class HuntingDimension {
     }
 
     public static final List<Tuple<ItemStack, ItemStack>> frameVariants = new ArrayList<>();
-    
+
     @SubscribeEvent
     public void registerRecipes (RegistryEvent.Register<IRecipe> event) {
 
         // Populate frameVariants if it has not already been done.
         if (frameVariants.isEmpty()) {
-            
+
             for (final ItemStack logStack : StackUtils.getAllBlocksForOredict(OreDictUtils.LOG_WOOD)) {
 
                 if (logStack.getItem() instanceof ItemBlock) {
-                    
+
                     try {
-                        
-                        Block block = ((ItemBlock) logStack.getItem()).getBlock();
-                        IBlockState state = block.getStateForPlacement(null, null, EnumFacing.DOWN, 0f, 0f, 0f, logStack.getMetadata(), null, EnumHand.MAIN_HAND);
-                        
+
+                        final Block block = ((ItemBlock) logStack.getItem()).getBlock();
+                        final IBlockState state = block.getStateForPlacement(null, null, EnumFacing.DOWN, 0f, 0f, 0f, logStack.getMetadata(), null, EnumHand.MAIN_HAND);
+
                         if (state.isFullCube()) {
-                            
+
                             frameVariants.add(new Tuple<>(logStack, BlockHuntingFrame.createFrameVariant(logStack)));
                         }
                     }
-                    
-                    catch (Exception e) {
-                        
+
+                    catch (final Exception e) {
+
                         LOG.catching(e);
                     }
                 }
             }
         }
-        
-        for (Tuple<ItemStack, ItemStack> variant : frameVariants) {
-            
+
+        for (final Tuple<ItemStack, ItemStack> variant : frameVariants) {
+
             final ItemStack output = variant.getSecond().copy();
             final ItemStack logStack = variant.getFirst();
             output.setCount(4);
