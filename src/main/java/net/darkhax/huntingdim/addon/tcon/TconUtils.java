@@ -1,7 +1,6 @@
 package net.darkhax.huntingdim.addon.tcon;
 
 import net.minecraft.item.Item;
-import slimeknights.tconstruct.library.tinkering.Category;
 import slimeknights.tconstruct.library.tinkering.TinkersItem;
 
 public class TconUtils {

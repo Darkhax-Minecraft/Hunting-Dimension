@@ -3,12 +3,9 @@ package net.darkhax.huntingdim.block;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import net.darkhax.bookshelf.block.BlockTileEntity;
 import net.darkhax.bookshelf.block.IColorfulBlock;
 import net.darkhax.bookshelf.block.property.PropertyObject;
-import net.darkhax.bookshelf.util.OreDictUtils;
 import net.darkhax.bookshelf.util.StackUtils;
 import net.darkhax.huntingdim.HuntingDimension;
 import net.darkhax.huntingdim.addon.tcon.TconUtils;
@@ -26,7 +23,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -130,14 +126,14 @@ public class BlockHuntingFrame extends BlockTileEntity implements IColorfulBlock
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        
+    public void neighborChanged (IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+
         if (worldIn.getBlockState(fromPos).getBlock() instanceof BlockFire) {
-            
+
             ((BlockHuntingPortal) HuntingDimension.portal).trySpawnPortal(worldIn, fromPos);
         }
     }
-    
+
     @Override
     public TileEntity createNewTileEntity (World worldIn, int meta) {
 
@@ -218,7 +214,7 @@ public class BlockHuntingFrame extends BlockTileEntity implements IColorfulBlock
 
     @Override
     public IBlockColor getColorHandler () {
-        
+
         return (state, world, pos, index) -> ConfigurationHandler.defaultColorPacked;
     }
 }

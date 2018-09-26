@@ -21,11 +21,11 @@ public class WorldProviderHunting extends WorldProvider {
     private static final long MIDNIGHT = 18000;
 
     @Override
-    public IChunkGenerator createChunkGenerator() {
-        
+    public IChunkGenerator createChunkGenerator () {
+
         return ConfigurationHandler.isVoidWorld ? new ChunkGeneratorVoid(this.world) : super.createChunkGenerator();
     }
-    
+
     @Override
     protected void init () {
 
@@ -92,21 +92,23 @@ public class WorldProviderHunting extends WorldProvider {
 
         return MIDNIGHT;
     }
-    
+
     @Override
-    public float getSunBrightness(float par1) {
+    public float getSunBrightness (float par1) {
+
         return 0;
     }
 
     @Override
-    public float getSunBrightnessFactor(float par1) {
+    public float getSunBrightnessFactor (float par1) {
+
         return 0;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
-    public Vec3d getFogColor(float p_76562_1_, float p_76562_2_) {
-        
+    public Vec3d getFogColor (float p_76562_1_, float p_76562_2_) {
+
         return ConfigurationHandler.defaultColorVector;
     }
 }

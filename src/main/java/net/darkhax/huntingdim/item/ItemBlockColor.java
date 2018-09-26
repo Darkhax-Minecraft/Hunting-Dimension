@@ -9,13 +9,13 @@ import net.minecraft.item.ItemBlock;
 public class ItemBlockColor extends ItemBlock implements IColorfulItem {
 
     public ItemBlockColor (Block block) {
-        
+
         super(block);
     }
 
     @Override
     public IItemColor getColorHandler () {
-        
+
         return (stack, index) -> ConfigurationHandler.defaultColorPacked;
     }
 }

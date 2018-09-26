@@ -32,7 +32,7 @@ public enum Messages {
     public void sendMessage (ICommandSender player, Object... args) {
 
         if (!player.getEntityWorld().isRemote) {
-            
+
             final ITextComponent text = new TextComponentTranslation("chat.huntingdim." + this.key, args);
             player.sendMessage(text);
         }

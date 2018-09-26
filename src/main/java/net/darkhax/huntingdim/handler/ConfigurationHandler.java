@@ -43,15 +43,15 @@ public class ConfigurationHandler {
 
     public static int chanceSound = 100;
     public static int chanceSpawn = 2000;
-    
+
     public static MCColor defaultColor = new MCColor(59, 162, 73);
     public static int defaultColorPacked = defaultColor.getRGB();
     public static Vec3d defaultColorVector = new Vec3d(defaultColor.getRedF(), defaultColor.getGreenF(), defaultColor.getBlueF());
 
     public static int returnDimension = 0;
-    
+
     public static boolean isVoidWorld = false;
-    
+
     public ConfigurationHandler () {
 
         if (!directory.exists()) {
@@ -123,10 +123,10 @@ public class ConfigurationHandler {
 
         chanceSound = config.getInt("chanceSound", Configuration.CATEGORY_GENERAL, 100, 0, 10000, "The chance that the portal will play a sound. Default is a 1 in 100 chance.");
         chanceSpawn = config.getInt("chanceSpawn", Configuration.CATEGORY_GENERAL, 2000, 0, 10000, "The chance that the portal will spawn a mob. Peaceful, easy, normal and hard have a 0, 1, 2, and 3 in X chance of spawning a mob, where X is the configured value.");
-        
+
         returnDimension = config.getInt("returnDimension", Configuration.CATEGORY_GENERAL, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, "The dimension to go to when you return from the hunting dimension.");
-        
-        defaultColor = getColor("defaultColor", "colors", new Color(59, 162, 73));
+
+        defaultColor = this.getColor("defaultColor", "colors", new Color(59, 162, 73));
         defaultColorPacked = defaultColor.getRGB();
         defaultColorVector = new Vec3d(defaultColor.getRedF(), defaultColor.getGreenF(), defaultColor.getBlueF());
 
@@ -137,9 +137,9 @@ public class ConfigurationHandler {
             config.save();
         }
     }
-    
-    private MCColor getColor(String type, String category, Color initial) {
-        
+
+    private MCColor getColor (String type, String category, Color initial) {
+
         final int red = config.getInt(type + "Red", category, initial.getRed(), 0, 255, "The red color value for " + type);
         final int green = config.getInt(type + "Green", category, initial.getGreen(), 0, 255, "The green color value for " + type);
         final int blue = config.getInt(type + "Blue", category, initial.getBlue(), 0, 255, "The blue color value for " + type);
