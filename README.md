@@ -1,7 +1,7 @@
 # Hunting Dimension [![](http://cf.way2muchnoise.eu/283235.svg)](https://minecraft.curseforge.com/projects/hunting-dimension) [![](http://cf.way2muchnoise.eu/versions/283235.svg)](https://minecraft.curseforge.com/projects/hunting-dimension)
 Many players encounter a situation where they need mob drops but can't hunt the mobs because it is day time. This issue is especially prominent on servers. This mod hopes to solve this issue, and any potential disputes it may cause by providing a hunting dimension. The hunting dimension provided by this mod is eternally night, meaning that mobs can spawn all day long. 
 
-[![Nodecraft](https://i.imgur.com/sz9PUmK.png)](https://nodecraft.com/r/darkhax)    
+[![Nodecraft](https://nodecraft.com/assets/images/logo-dark.png)](https://nodecraft.com/r/darkhax)    
 This project is sponsored by Nodecraft. Use code [Darkhax](https://nodecraft.com/r/darkhax) for 30% off your first month of service!
 
 ## Hunting Dimension Mobs
