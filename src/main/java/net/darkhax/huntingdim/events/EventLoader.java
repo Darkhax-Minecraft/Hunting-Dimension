@@ -5,8 +5,10 @@ import java.io.InputStream;
 import java.util.Calendar;
 
 import net.darkhax.huntingdim.HuntingDimension;
+import net.darkhax.huntingdim.handler.SeasonalEvents;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.MinecraftForge;
 
 public class EventLoader {
 
@@ -26,6 +28,11 @@ public class EventLoader {
         
         HuntingDimension.LOG.info("Current head event is {}.", currentHeadEvent != null ? currentHeadEvent.getName() : "none");
         HuntingDimension.LOG.info("Current hand event is {}.", currentHandEvent != null ? currentHandEvent.getName() : "bone");
+        
+        if (currentHeadEvent != null || currentHandEvent != null) {
+            
+            MinecraftForge.EVENT_BUS.register(new SeasonalEvents());
+        }
     }
     
     private static void loadEvent (String name, boolean head) {
