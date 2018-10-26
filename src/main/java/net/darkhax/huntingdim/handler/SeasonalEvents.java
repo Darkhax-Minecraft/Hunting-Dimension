@@ -21,15 +21,15 @@ public class SeasonalEvents {
         
         if (isValidWorld(event.getWorld()) && this.isValidMob(event.getEntityLiving()) && MathsUtils.tryPercentage(0.10)) {
             
-            if (EventLoader.currentHeadEvent != null && Constants.RANDOM.nextBoolean()) {
+            if (Constants.RANDOM.nextBoolean()) {
                 
-                final ItemStack head = EventLoader.currentHeadEvent.getRandomItem().copy();
+                final ItemStack head = EventLoader.currentEvent.getRandomWorn().copy();
                 event.getEntityLiving().setItemStackToSlot(EntityEquipmentSlot.HEAD, head);
             }
             
-            else if (EventLoader.currentHandEvent != null){
+            else {
                 
-                final ItemStack hand = EventLoader.currentHandEvent.getRandomItem().copy();
+                final ItemStack hand = EventLoader.currentEvent.getRandomHeld().copy();
                 event.getEntityLiving().setItemStackToSlot(EntityEquipmentSlot.MAINHAND, hand);
             }
         }
