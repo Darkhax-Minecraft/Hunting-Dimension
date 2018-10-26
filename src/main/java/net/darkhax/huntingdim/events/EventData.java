@@ -1,5 +1,6 @@
 package net.darkhax.huntingdim.events;
 
+import net.darkhax.bookshelf.lib.Constants;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -31,7 +32,7 @@ public class EventData {
 
         for (int i = 0; i < list.tagCount(); i++) {
 
-            this.items[0] = new ItemStack(list.getCompoundTagAt(i));
+            this.items[i] = new ItemStack(list.getCompoundTagAt(i));
         }
     }
     
@@ -53,5 +54,10 @@ public class EventData {
     public ItemStack[] getItems () {
         
         return items;
+    }
+    
+    public ItemStack getRandomItem() {
+        
+        return this.items[Constants.RANDOM.nextInt(this.items.length)];
     }
 }
