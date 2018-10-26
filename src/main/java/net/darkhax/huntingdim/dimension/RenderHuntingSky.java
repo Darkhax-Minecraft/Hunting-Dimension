@@ -1,6 +1,7 @@
 package net.darkhax.huntingdim.dimension;
 
 import net.darkhax.bookshelf.util.RenderUtils;
+import net.darkhax.huntingdim.events.EventLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -24,8 +25,20 @@ public class RenderHuntingSky extends IRenderHandler {
 
     public static final RenderHuntingSky INSTANCE = new RenderHuntingSky();
     
-    private static final ResourceLocation MOON_PHASES_TEXTURES = new ResourceLocation("textures/environment/moon_phases.png");
+    private ResourceLocation moonTextures;
 
+    public RenderHuntingSky() {
+        
+        if (EventLoader.month == 10 && EventLoader.day >= 20 && EventLoader.day <= 31) {
+            
+            moonTextures = new ResourceLocation("huntingdim", "textures/environment/pumpkin_moon.png");
+        }
+        
+        else {
+            moonTextures = new ResourceLocation("textures/environment/moon_phases.png");
+        }
+    }
+    
     @Override
     public void render (float partialTicks, WorldClient world, Minecraft mc) {
 
@@ -118,7 +131,7 @@ public class RenderHuntingSky extends IRenderHandler {
         GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
         final float f17 = 20.0F;
-        mc.getTextureManager().bindTexture(MOON_PHASES_TEXTURES);
+        mc.getTextureManager().bindTexture(moonTextures);
         final int k1 = world.getMoonPhase();
         final int i2 = k1 % 4;
         final int k2 = k1 / 4 % 2;
