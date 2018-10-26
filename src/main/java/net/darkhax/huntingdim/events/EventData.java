@@ -1,6 +1,5 @@
 package net.darkhax.huntingdim.events;
 
-import net.darkhax.huntingdim.HuntingDimension;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -34,7 +33,25 @@ public class EventData {
 
             this.items[0] = new ItemStack(list.getCompoundTagAt(i));
         }
+    }
+    
+    public boolean isCurrent(int month, int day) {
+        
+        return this.startMonth <= month && this.endMonth >= month && this.startDay <= day && this.endDay >= day;
+    }
 
-        HuntingDimension.LOG.info("Loaded event {} with {} items.", this.name, this.items.length);
+    public String getName () {
+        
+        return name;
+    }
+
+    public String getType () {
+        
+        return type;
+    }
+
+    public ItemStack[] getItems () {
+        
+        return items;
     }
 }

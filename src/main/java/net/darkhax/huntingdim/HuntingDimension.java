@@ -1,6 +1,8 @@
 package net.darkhax.huntingdim;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import net.darkhax.bookshelf.lib.LoggingHelper;
@@ -64,8 +66,7 @@ public class HuntingDimension {
     @EventHandler
     public void preInit (FMLPreInitializationEvent event) {
 
-        EventLoader.loadEvent("22af39170e3a13897893a6711cec7236");
-        EventLoader.loadEvent("62842cecd0f3cee8f0aed17b75bbf0d9");
+        EventLoader.loadCurrentEvents();
 
         new ConfigurationHandler();
         dimensionType = DimensionType.register("hunting_dim", "_hunting", ConfigurationHandler.dimensionId, WorldProviderHunting.class, false);
