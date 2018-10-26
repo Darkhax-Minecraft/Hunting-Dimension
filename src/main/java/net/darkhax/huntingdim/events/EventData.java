@@ -25,6 +25,16 @@ public class EventData {
         return event;
     }
     
+    public ItemStack[] getHeldItems() {
+        
+        return this.heldItems;
+    }
+    
+    public ItemStack[] getWornItems() {
+        
+        return this.wornItems;
+    }
+    
     public ItemStack getRandomHeld() {
         
         return this.heldItems[Constants.RANDOM.nextInt(this.heldItems.length)];
@@ -43,6 +53,7 @@ public class EventData {
         for (int i = 0; i < items.length; i++) {
             
             items[i] = new ItemStack(list.getCompoundTagAt(i));
+            StackUtils.appendLore(items[i], this.event + " " + EventLoader.year);
         }
         
         return items;
