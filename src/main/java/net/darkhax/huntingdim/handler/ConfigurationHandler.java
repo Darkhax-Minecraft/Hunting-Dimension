@@ -114,6 +114,13 @@ public class ConfigurationHandler {
 
         mimicSurfaceWorld = config.getBoolean("mimicSurfaceWorld", Configuration.CATEGORY_GENERAL, false, "If true, the mining dimension will use the same world generator as the surface world. For example, if the surface is flat so will the dimension.");
         worldType = config.getString("worldType", Configuration.CATEGORY_GENERAL, "default", "The type of world to use for the hunting dimension. Vanilla values include default, flat, largeBiomes, amplified, customized, debug_all_block_states, and default_1_1 Keep in mind that this will be ignored if you use mimicSurfaceWorld!");
+        
+        if (worldType == null) {
+            
+            HuntingDimension.LOG.error("worldType was configured to null, this is not allowed. Please resolve this in your config.");
+            worldType = "default";
+        }
+        
         defaultBiome = config.getString("initialBiome", Configuration.CATEGORY_GENERAL, "minecraft:plains", "The biome to use when generating the hunting dimension. If an invalid id is used, plains will be defaulted.");
 
         allowHostileInOverworld = config.getBoolean("mobsInSurface", Configuration.CATEGORY_GENERAL, true, "Should hostile mobs be allowed to spawn in the overworld?");

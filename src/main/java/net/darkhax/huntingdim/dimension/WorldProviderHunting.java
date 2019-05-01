@@ -40,7 +40,7 @@ public class WorldProviderHunting extends WorldProvider {
 
             for (final WorldType type : WorldType.WORLD_TYPES) {
 
-                if (ConfigurationHandler.worldType.equalsIgnoreCase(type.getName())) {
+                if (type != null && ConfigurationHandler.worldType.equalsIgnoreCase(type.getName())) {
 
                     WorldUtils.setWorldType(this, type);
                     break;
