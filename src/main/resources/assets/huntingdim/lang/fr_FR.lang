@@ -1,0 +1,29 @@
+#Block Names
+tile.huntingdim.frame.name=Cadre de la dimension de chasse
+tile.huntingdim.portal.name=Portail de la dimension de chasse
+
+#Item Names
+item.huntingdim.biome.changer.name=Mousse rampante
+
+#Misc
+itemGroup.huntingdim=Hunting Dimension
+tooltip.huntingdim.biome.invalid=Biome invalide! Aucun biome trouvé pour l'id 
+
+#Chat Messages
+chat.huntingdim.changer.invalid.dim=Cet objet ne peut changer le biome que dans la dimension de chasse
+chat.huntingdim.changer.biome.exists=Ce biome est déjà de ce type.
+chat.huntingdim.changer.set.self=Le biome de la mousse a été changé en %s.
+chat.huntingdim.changer.set.world=Le biome du chunk a été changé en %s.
+chat.huntingdim.changer.set.invalid=Biome sélectionné invalide. Changez le biome de la mousse en cliquant accroupi.
+chat.huntingdim.teleporter.canceled=Un autre mod bloque l'accès à la dimension de chasse.
+chat.huntingdim.teleporter.mounted=Les entités chevauchantes ne peuvent entrer dans la dimension de chasse.
+chat.huntingdim.teleporter.invalid.player=Vous êtes une entité invalide et ne pouvez traverser le portail!
+
+#JEI Descriptions
+jei.tile.huntingdim.frame=Le bloc de cadre pour créer un portail vers la dimension de chasse. Même dimensions et forme qu'un portail du Nether. Le portail s'active avec un clic droit d'une épée, d'un arc ou d'un briquet. Pour le traverser il faut s'accroupir.
+jei.tile.huntingdim.portal=Le portail vers la dimension de chasse. Pour le traverser il faut s'accroupir.
+jei.item.huntingdim.biome.changer=Cette mousse permet de changer le biome d'un chunk de la dimension de chasse. Faire un clic droit accroupi change le biome de la mousse pour être celui dans lequel vous vous trouvez. Clic droit non accroupi dans la dimension de chasse change le biome du chunk par le biome de la mousse. Cela ne marche UNIQUEMENT dans la dimension de chasse.
+
+#Debug Tools
+debug.huntingdim.pack=Emballé %d objets en %s 
+debug.huntingdim.unpack=Déballé %d objets depuis %s
