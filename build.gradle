@@ -18,8 +18,12 @@ buildscript {
     dependencies {
     
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0'
     }
+}
+
+plugins {
+
+   id 'com.matthewprenger.cursegradle' version '1.1.0'
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -32,7 +36,11 @@ apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Co
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/minecraft/artifacts.gradle'
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/minecraft/maven.gradle'
 
-loadSecrets()
+if (project.hasProperty('secretFile')) {
+
+    loadSecrets(new File((String) findProperty('secretFile')))
+}
+
 version = "${mod_version}" + getBuildNumber()
 group = "${mod_group}"
 archivesBaseName = "${mod_name}-${version_minecraft}"
@@ -55,18 +63,18 @@ repositories {
 
     maven {
 
-        url 'http://dvs1.progwml6.com/files/maven'
+        url "http://maven.mcmoddev.com"
     }
+	
+	maven {
 
-    maven {
-
-        url 'https://maven.mcmoddev.com'
+        url 'http://dvs1.progwml6.com/files/maven'
     }
 }
 
 dependencies {
 
-    deobfCompile "mezz.jei:jei_1.12.2:${version_jei}"
+	deobfCompile "mezz.jei:jei_1.12.2:${version_jei}"
     deobfCompile "net.darkhax.bookshelf:Bookshelf-1.12.2:${version_bookshelf}"
 	deobfCompile "slimeknights.mantle:Mantle:${version_mantle}"
     deobfCompile "slimeknights:TConstruct:${version_tcon}"
@@ -109,7 +117,7 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 curseforge {
-
+   
     apiKey = findProperty('curse_auth') ?: 0 
     def versions = "${curse_versions}".split(', ')
 
